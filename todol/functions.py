@@ -28,17 +28,26 @@ class Functions():
             description = data['tasks'][key]['desc']
             time = data['tasks'][key]['time']
             completed = data['tasks'][key]['completed']
-            print(f'{key}. {title}, {description}, by {time}, isDone: {completed}')
-            print()
+            status = "✓" if completed else "✗"
+            print(
+                f"{key}. {title}\n"
+                f"   desc: {description}\n"
+                f"   time: {time}\n"
+                f"   done: [{status}]\n"
+            )
 
     # add task to json
 
     def addTaskJson(task):
         with open(todoJsonPath, 'r') as f:
             data = json.load(f)
-        last_index = str(len(data['tasks']))
 
-        data['tasks'][last_index] = task
+        if data['tasks']:
+            new_id = str(max(map(int, data['tasks'].keys())) + 1)
+        else:
+            new_id = "0"
+
+        data['tasks'][new_id] = task
 
         with open(todoJsonPath, 'w') as f:
             json.dump(data, f, indent=4)
@@ -46,10 +55,9 @@ class Functions():
         print()
 
     def addTask(full_cmd):
-        full_cmd.pop(0)
         title = " ".join(full_cmd)
-        description = str(input('description > '))
-        time = str(input('when > '))
+        description = session.prompt('description > ').strip()
+        time = session.prompt('when > ').strip()
         return {"name": title, "desc": description, "time": time, "completed": False}
 
     # remove task from json
