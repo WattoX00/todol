@@ -10,16 +10,30 @@ from prompt_toolkit.history import FileHistory
 todoPath = 'todoFiles'
 todoJsonPath = './todoFiles/main.json'
 
+
 if not os.path.exists(todoPath):
     os.makedirs(todoPath)
     with open(todoJsonPath, 'w') as f:
         f.write('{"tasks": {}}')
 
+# reset history
+
+open('./todoFiles/my_history', 'a').close()
+
 class Functions():
 
+    # greeting
+
     def greetingAppStart():
+        print(r"""
+████████  ██████   █████     ██████   ██      
+   ██    ██    ██  ██   ██  ██    ██  ██      
+   ██    ██    ██  ██   ██  ██    ██  ██      
+   ██    ██    ██  ██   ██  ██    ██  ██      
+   ██     ██████   █████     ██████   ███████
+        """)
+
         print(
-            f'Welcome To Todol\n'
             f'Type h or help to see the available commands!\n'
         )
 
@@ -62,8 +76,8 @@ class Functions():
 
     def addTask(full_cmd):
         title = " ".join(full_cmd)
-        description = session.prompt('description > ').strip()
-        time = session.prompt('when > ').strip()
+        description = session.prompt('[todol ~] > description $ ').strip()
+        time = session.prompt('[todol ~] > when $ ').strip()
         return {"name": title, "desc": description, "time": time, "completed": False}
 
     # remove task from json
@@ -78,7 +92,7 @@ class Functions():
             print('Task is removed')
             print()
         except:
-            print('Task is not found')
+            print('Task is not found - type h or help for the commands list!')
 
     # mark task as done in json
 
@@ -92,8 +106,7 @@ class Functions():
             print('Task is marked')
             print()
         except:
-            print('Task is not found')
-        
+            print('Task is not found - type h or help for the commands list!')
 
     # remove tasks that are completed
 
@@ -109,6 +122,8 @@ class Functions():
             json.dump(data, f, indent=4)
         print('Completed task are cleared out of the TODO list')
         print()
+
+    # print help commands
 
     def helpText():
         BOLD = "\033[1m"
@@ -129,7 +144,6 @@ class Functions():
             f"{BOLD}Tip:{RESET} You can use Tab for autocomplete.\n"
             f"{BOLD}Pro Tip:{RESET} Navigate the terminal efficiently: arrow keys, backspace, and delete all work.\n"
             f'Hotkeys are available! For full details, see the README: https://github.com/WattoX00/todol\n'
-
         )
 
 def cmd_add(args):
@@ -153,7 +167,6 @@ def cmd_clean(args):
 
 def cmd_exit(args):
     raise SystemExit
-        
 
 def aliases(func, *names):
     return {name: func for name in names}

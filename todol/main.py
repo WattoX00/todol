@@ -1,6 +1,5 @@
 from .functions import Functions, session, COMMANDS
 
-# fix numbere list
 def main():
     Functions.greetingAppStart()
     Functions.openJson()
@@ -9,7 +8,7 @@ def main():
 
     while True:
         try:
-            raw = session.prompt('> ').strip()
+            raw = session.prompt('[todol ~]$ ').strip()
 
         except KeyboardInterrupt:
             break

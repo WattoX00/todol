@@ -10,8 +10,10 @@ More Info
 - Check out the project page on PyPi: [https://pypi.org/project/todol/](https://pypi.org/project/todol/)
 - and on Github: [https://github.com/WattoX00/todol](https://github.com/WattoX00/todol)
 
+
+## COMMAND GUIDE
+
 ```
-COMMAND GUIDE
 ─────────────────────────────────────────────
 add    | a      → ADD a new task
 done   | d      → MARK a task as DONE
