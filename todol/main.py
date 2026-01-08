@@ -1,4 +1,4 @@
-from functions import Functions, session, COMMANDS
+from todol.functions import Functions, session, COMMANDS
 
 # fix numbere list
 def main():
