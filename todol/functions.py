@@ -17,6 +17,12 @@ if not os.path.exists(todoPath):
 
 class Functions():
 
+    def greetingAppStart():
+        print(
+            f'Welcome To Todol\n'
+            f'Type h or help to see the available commands!\n'
+        )
+
     # open Json (write on start)
 
     def openJson():
@@ -65,24 +71,29 @@ class Functions():
     def removeTaskJson(index):
         with open(todoJsonPath, 'r') as f:
             data = json.load(f)
-        del data['tasks'][index]
-        with open(todoJsonPath, 'w') as f:
-            json.dump(data, f, indent=4)
-        print('Task is removed')
-        print()
+        try:
+            del data['tasks'][index]
+            with open(todoJsonPath, 'w') as f:
+                json.dump(data, f, indent=4)
+            print('Task is removed')
+            print()
+        except:
+            print('Task is not found')
 
     # mark task as done in json
 
     def doneTaskJson(doneIndex):
         with open(todoJsonPath, 'r') as f:
             data = json.load(f)
-
-        data['tasks'][str(doneIndex)]['completed'] = True
-
-        with open(todoJsonPath, 'w') as f:
-            json.dump(data, f, indent=4)
-        print('Task is marked')
-        print()
+        try:
+            data['tasks'][str(doneIndex)]['completed'] = True
+            with open(todoJsonPath, 'w') as f:
+                json.dump(data, f, indent=4)
+            print('Task is marked')
+            print()
+        except:
+            print('Task is not found')
+        
 
     # remove tasks that are completed
 
@@ -99,6 +110,28 @@ class Functions():
         print('Completed task are cleared out of the TODO list')
         print()
 
+    def helpText():
+        BOLD = "\033[1m"
+        RESET = "\033[0m"
+        GREEN = "\033[92m"
+
+        print(
+            f"\n{BOLD}COMMAND GUIDE{RESET}\n"
+            f"{'─' * 45}\n"
+            f"{GREEN}add    | a{RESET}      → {BOLD}ADD{RESET} a new task\n"
+            f"{GREEN}done   | d{RESET}      → {BOLD}MARK{RESET} a task as {BOLD}DONE{RESET}\n"
+            f"{GREEN}list   | l{RESET}      → {BOLD}SHOW{RESET} your todo list\n"
+            f"{GREEN}remove | rm | r{RESET} → {BOLD}REMOVE{RESET} a task by ID\n"
+            f"{GREEN}clean  | c{RESET}      → {BOLD}DELETE{RESET} all completed tasks\n"
+            f"{GREEN}help   | h{RESET}      → {BOLD}SHOW{RESET} this help menu\n"
+            f"{GREEN}exit   | 0{RESET}      → {BOLD}EXIT{RESET} the application\n"
+            f"{'─' * 45}\n"
+            f"{BOLD}Tip:{RESET} You can use Tab for autocomplete.\n"
+            f"{BOLD}Pro Tip:{RESET} Navigate the terminal efficiently: arrow keys, backspace, and delete all work.\n"
+            f'Hotkeys are available! For full details, see the README: https://github.com/WattoX00/todol\n'
+
+        )
+
 def cmd_add(args):
     data = Functions.addTask(args)
     Functions.addTaskJson(data)
@@ -110,7 +143,7 @@ def cmd_remove(args):
     Functions.removeTaskJson(args[0])
 
 def cmd_help(args):
-    print('help been given')
+    Functions.helpText()
 
 def cmd_list(args):
     Functions.openJson()

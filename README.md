@@ -1,5 +1,84 @@
-pythion
+# Todol - Python ToDo app
 
-`pip install todol`
+## Installation
 
-[https://pypi.org/project/todol/](https://pypi.org/project/todol/)
+```
+pip install todol
+```
+More Info
+
+- Check out the project page on PyPi: [https://pypi.org/project/todol/](https://pypi.org/project/todol/)
+- and on Github: [https://github.com/WattoX00/todol](https://github.com/WattoX00/todol)
+
+```
+COMMAND GUIDE
+─────────────────────────────────────────────
+add    | a      → ADD a new task
+done   | d      → MARK a task as DONE
+list   | l      → SHOW your todo list
+remove | rm | r → REMOVE a task by ID
+clean  | c      → DELETE all completed tasks
+help   | h      → SHOW this help menu
+exit   | 0      → EXIT the application
+─────────────────────────────────────────────
+Tip: You can use Tab for autocomplete.
+Pro Tip: Navigate the terminal efficiently: arrow keys, backspace, and delete all work.
+```
+## Hotkeys are available!
+
+### Cursor navigation
+
+| Key      | Action                           |
+| -------- | -------------------------------- |
+| `Ctrl‑a` | Move cursor to beginning of line |
+| `Ctrl‑e` | Move cursor to end of line       |
+| `Ctrl‑f` | Move cursor forward (right)      |
+| `Ctrl‑b` | Move cursor backward (left)      |
+| `Alt‑f`  | Move forward one word            |
+| `Alt‑b`  | Move backward one word           |
+| `Home`   | Go to start of line              |
+| `End`    | Go to end of line                |
+
+### Editing
+
+| Key                    | Action                         |
+| ---------------------- | ------------------------------ |
+| `Ctrl‑d`               | Delete character under cursor  |
+| `Ctrl‑h` / `Backspace` | Delete character before cursor |
+| `Alt‑d`                | Delete word forward            |
+| `Ctrl‑k`               | Kill (cut) text to end of line |
+| `Ctrl‑y`               | Yank (paste) killed text       |
+| `Ctrl‑t`               | Transpose characters           |
+
+### History
+
+| Key      | Action                |
+| -------- | --------------------- |
+| `Ctrl‑p` | Previous history item |
+| `Ctrl‑n` | Next history item     |
+
+### Searching
+
+| Key      | Action                                                                 |
+| -------- | ---------------------------------------------------------------------- |
+| `Ctrl‑r` | Reverse search history                                                 |
+| `Ctrl‑s` | Forward search history *(may be intercepted by terminal flow control)* |
+
+### Completion & Accept
+
+| Key          | Action                   |
+| ------------ | ------------------------ |
+| `Tab`        | Trigger completion       |
+| `Ctrl‑Space` | Start/advance completion |
+| `Enter`      | Accept input             |
+
+### Misc
+
+| Key        | Action                               |
+| ---------- | ------------------------------------ |
+| `Ctrl‑c`   | Cancel / raise KeyboardInterrupt     |
+| `Ctrl‑z`   | Suspend (depends on shell)           |
+| `Escape`   | Escape/Meta prefix for `Alt‑` combos |
+| Arrow keys | Move cursor up/down/left/right       |
+
+For the full official key binding documentation, check the prompt_toolkit docs: [prompt_toolkit GITHUB](https://github.com/prompt-toolkit/python-prompt-toolkit)

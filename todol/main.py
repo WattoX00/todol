@@ -2,13 +2,18 @@ from .functions import Functions, session, COMMANDS
 
 # fix numbere list
 def main():
-    
+    Functions.greetingAppStart()
     Functions.openJson()
 
     # main loop
 
     while True:
-        raw = session.prompt('> ').strip()
+        try:
+            raw = session.prompt('> ').strip()
+
+        except KeyboardInterrupt:
+            break
+
         if not raw:
             continue
 
@@ -26,4 +31,6 @@ def main():
         except IndexError:
             print("Missing argument(s)")
         except SystemExit:
+            break
+        except KeyboardInterrupt:
             break
