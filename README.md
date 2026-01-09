@@ -84,3 +84,7 @@ Pro Tip: Navigate the terminal efficiently: arrow keys, backspace, and delete al
 | Arrow keys | Move cursor up/down/left/right       |
 
 For the full official key binding documentation, check the prompt_toolkit docs: [prompt_toolkit GITHUB](https://github.com/prompt-toolkit/python-prompt-toolkit)
+
+## License
+
+This project is licensed under the [MIT License](LICENSE) - see the [LICENSE](LICENSE) file for details.
