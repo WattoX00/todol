@@ -22,13 +22,13 @@ def main():
         func = COMMANDS.get(command)
 
         if not func:
-            print(f"Unknown command: {command}")
+            print(f'{command}: command not found')
             continue
 
         try:
             func(args)
         except IndexError:
-            print("Missing argument(s)")
+            print('Missing argument')
         except SystemExit:
             break
         except KeyboardInterrupt:

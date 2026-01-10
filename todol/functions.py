@@ -7,8 +7,8 @@ from prompt_toolkit.history import FileHistory
 
 # app start
 
-todoPath = 'todoFiles'
-todoJsonPath = './todoFiles/main.json'
+todoPath: str = 'todoFiles'
+todoJsonPath: str = './todoFiles/main.json'
 
 
 if not os.path.exists(todoPath):
@@ -34,65 +34,91 @@ class Functions():
         """)
 
         print(
-            f'Type h or help to see the available commands!\n'
+            f'Type h or help to see the available commands and what they do!\n'
         )
 
     # open Json (write on start)
 
     def openJson():
         with open(todoJsonPath, 'r') as f:
-            data = json.load(f)
-        
+            data: dict = json.load(f)
+
         for key in data['tasks']:
-            title = data['tasks'][key]['name']
-            description = data['tasks'][key]['desc']
-            time = data['tasks'][key]['time']
-            completed = data['tasks'][key]['completed']
-            status = "✓" if completed else "✗"
+            title: str = data['tasks'][key]['name']
+            description: str = data['tasks'][key]['desc']
+            time: str = data['tasks'][key]['time']
+            completed: bool = data['tasks'][key]['completed']
+            status: str = "✓" if completed else "✗"
             print(
-                f"{key}. {title}\n"
-                f"   desc: {description}\n"
-                f"   time: {time}\n"
-                f"   done: [{status}]\n"
+                f'{key}. {title}\n'
+                f'   desc: {description}\n'
+                f'   time: {time}\n'
+                f'   done: [{status}]\n'
             )
 
     # add task to json
 
     def addTaskJson(task):
         with open(todoJsonPath, 'r') as f:
-            data = json.load(f)
+            data: dict = json.load(f)
 
         if data['tasks']:
-            new_id = str(max(map(int, data['tasks'].keys())) + 1)
+            new_id: str = str(max(map(int, data['tasks'].keys())) + 1)
         else:
-            new_id = "0"
+            new_id: str = '0'
 
         data['tasks'][new_id] = task
 
         with open(todoJsonPath, 'w') as f:
             json.dump(data, f, indent=4)
-        print("Task Added")
-        print()
+        print(f'\nTask {new_id} Added!\n')
 
     def addTask(full_cmd):
-        title = " ".join(full_cmd)
-        description = session.prompt('[todol ~] > description $ ').strip()
-        time = session.prompt('[todol ~] > when $ ').strip()
-        return {"name": title, "desc": description, "time": time, "completed": False}
+        title: str = " ".join(full_cmd)
+        description: str = session.prompt('[todol ~] description : ').strip()
+        time: str = session.prompt('[todol ~] time : ').strip()
+        return {'name': title, 'desc': description, 'time': time, 'completed': False}
 
     # remove task from json
 
     def removeTaskJson(index):
-        with open(todoJsonPath, 'r') as f:
-            data = json.load(f)
         try:
+            with open(todoJsonPath, 'r') as f:
+                data: dict = json.load(f)
+
             del data['tasks'][index]
             with open(todoJsonPath, 'w') as f:
                 json.dump(data, f, indent=4)
-            print('Task is removed')
-            print()
-        except:
-            print('Task is not found - type h or help for the commands list!')
+            print(f'\nTask {index} is removed!\n')
+
+        except ValueError:
+            print('Invalid input. Please enter a valid number.')
+        except KeyError:
+            print('Invalid input. Please enter a valid number.')
+
+    # edit task
+
+    def editTask(editIndex):
+        try:
+            with open(todoJsonPath, 'r') as f:
+                data: dict = json.load(f)
+            title: str = data['tasks'][editIndex]['name']
+            desc: str = data['tasks'][editIndex]['desc']
+            time: str = data['tasks'][editIndex]['time']
+            editTittle = session.prompt('[todol ~] title (edit) : ', default=title)
+            editDesc = session.prompt('[todol ~] description (edit) : ', default=desc)
+            editTime = session.prompt('[todol ~] time (edit) : ', default=time)
+
+            data['tasks'][editIndex] = {'name': editTittle, 'desc': editDesc, 'time': editTime, 'completed': False}
+
+            with open(todoJsonPath, 'w') as f:
+                json.dump(data, f, indent=4)
+            print(f'\nTask {editIndex} Edited!\n')
+
+        except ValueError:
+            print('Invalid input. Please enter a valid number.')
+        except KeyError:
+            print('Invalid input. Please enter a valid number.')
 
     # mark task as done in json
 
@@ -103,10 +129,12 @@ class Functions():
             data['tasks'][str(doneIndex)]['completed'] = True
             with open(todoJsonPath, 'w') as f:
                 json.dump(data, f, indent=4)
-            print('Task is marked')
-            print()
-        except:
-            print('Task is not found - type h or help for the commands list!')
+            print(f'\nTask {doneIndex} marked Done!\n')
+
+        except ValueError:
+            print('Invalid input. Please enter a valid number.')
+        except KeyError:
+            print('Invalid input. Please enter a valid number.')
 
     # remove tasks that are completed
 
@@ -120,8 +148,7 @@ class Functions():
 
         with open(todoJsonPath, 'w') as f:
             json.dump(data, f, indent=4)
-        print('Completed task are cleared out of the TODO list')
-        print()
+        print('\nTODO list CLEARED!\n')
 
     # print help commands
 
@@ -132,15 +159,15 @@ class Functions():
 
         print(
             f"\n{BOLD}COMMAND GUIDE{RESET}\n"
-            f"{'─' * 45}\n"
-            f"{GREEN}add    | a{RESET}      → {BOLD}ADD{RESET} a new task\n"
-            f"{GREEN}done   | d{RESET}      → {BOLD}MARK{RESET} a task as {BOLD}DONE{RESET}\n"
-            f"{GREEN}list   | l{RESET}      → {BOLD}SHOW{RESET} your todo list\n"
-            f"{GREEN}remove | rm | r{RESET} → {BOLD}REMOVE{RESET} a task by ID\n"
-            f"{GREEN}clean  | c{RESET}      → {BOLD}DELETE{RESET} all completed tasks\n"
-            f"{GREEN}help   | h{RESET}      → {BOLD}SHOW{RESET} this help menu\n"
-            f"{GREEN}exit   | 0{RESET}      → {BOLD}EXIT{RESET} the application\n"
-            f"{'─' * 45}\n"
+            f"{'─' * 65}\n"
+            f"{GREEN}add    | a{RESET}      → {BOLD}ADD{RESET} a new task | add/a [task]\n"
+            f"{GREEN}done   | d{RESET}      → {BOLD}MARK{RESET} a task as {BOLD}DONE{RESET} | done/d [task_number]\n"
+            f"{GREEN}list   | l{RESET}      → {BOLD}SHOW{RESET} your todo list | list/l \n"
+            f"{GREEN}remove | rm | r{RESET} → {BOLD}REMOVE{RESET} a task | remove/rm/r [task_number] \n"
+            f"{GREEN}clear  | c{RESET}      → {BOLD}REMOVE{RESET} all completed tasks | clear/c \n"
+            f"{GREEN}help   | h{RESET}      → {BOLD}SHOW{RESET} this help menu | help/h \n"
+            f"{GREEN}exit   | 0{RESET}      → {BOLD}EXIT{RESET} the application | exit/0\n"
+            f"{'─' * 65}\n"
             f"{BOLD}Tip:{RESET} You can use Tab for autocomplete.\n"
             f"{BOLD}Pro Tip:{RESET} Navigate the terminal efficiently: arrow keys, backspace, and delete all work.\n"
             f'Hotkeys are available! For full details, see the README: https://github.com/WattoX00/todol\n'
@@ -156,13 +183,16 @@ def cmd_done(args):
 def cmd_remove(args):
     Functions.removeTaskJson(args[0])
 
+def cmd_edit(args):
+    Functions.editTask(args[0])
+
 def cmd_help(args):
     Functions.helpText()
 
 def cmd_list(args):
     Functions.openJson()
 
-def cmd_clean(args):
+def cmd_clear(args):
     Functions.clearTaskJson()
 
 def cmd_exit(args):
@@ -175,9 +205,10 @@ COMMANDS = {
     **aliases(cmd_add, "add", "a"),
     **aliases(cmd_done, "done", "d"),
     **aliases(cmd_remove, "remove", "rm", "r"),
+    **aliases(cmd_edit, "edit", "e"),
     **aliases(cmd_help, "help", "h"),
     **aliases(cmd_list, "list", "l"),
-    **aliases(cmd_clean, "clean", "c"),
+    **aliases(cmd_clear, "clear", "c"),
     **aliases(cmd_exit, "exit", "0"),
 }
 
