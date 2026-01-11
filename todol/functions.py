@@ -18,7 +18,7 @@ if not os.path.exists(todoPath):
 
 # reset history
 
-open('./todoFiles/my_history', 'a').close()
+open('./todoFiles/my_history', 'w').close()
 
 class Functions():
 
