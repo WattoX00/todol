@@ -25,14 +25,6 @@ HISTORY_FILE.write_text('')
 
 class Functions():
 
-    def load_todos():
-        with open(TODO_JSON, 'r') as f:
-            return json.load(f)
-
-    def save_todos(data):
-        with open(TODO_JSON, 'w') as f:
-            json.dump(data, f, indent=4)
-
     # greeting
 
     def greetingAppStart():
@@ -172,19 +164,33 @@ class Functions():
 
         print(
             f"\n{BOLD}COMMAND GUIDE{RESET}\n"
-            f"{'─' * 65}\n"
-            f"{GREEN}add    | a{RESET}      → {BOLD}ADD{RESET} a new task             | add/a [task]\n"
-            f"{GREEN}done   | d{RESET}      → {BOLD}MARK{RESET} a task as {BOLD}DONE{RESET}        | done/d [task_number]\n"
-            f"{GREEN}list   | l{RESET}      → {BOLD}SHOW{RESET} your todo list        | list/l \n"
-            f"{GREEN}remove | rm {RESET}    → {BOLD}REMOVE{RESET} a task              | remove/rm/r [task_number] \n"
-            f"{GREEN}clear  | c{RESET}      → {BOLD}REMOVE{RESET} all completed tasks | clear/c \n"
-            f"{GREEN}help   | h{RESET}      → {BOLD}SHOW{RESET} this help menu        | help/h \n"
-            f"{GREEN}exit   | 0{RESET}      → {BOLD}EXIT{RESET} the application       | exit/0\n"
-            f"{'─' * 65}\n"
+            f"{'─' * 66}\n"
+            f"{GREEN}add    | a{RESET}    → {BOLD}ADD{RESET} a new task          |  add/a [task]\n"
+            f"{GREEN}done   | d{RESET}    → {BOLD}MARK{RESET} a task as {BOLD}DONE{RESET}     |  done/d [task_number]\n"
+            f"{GREEN}list   | l{RESET}    → {BOLD}SHOW{RESET} your todo list     |  list/l \n"
+            f"{GREEN}remove | rm {RESET}  → {BOLD}REMOVE{RESET} a task           |  remove/rm [task_number] \n"
+            f"{GREEN}edit   | e {RESET}   → {BOLD}Edit{RESET} a task             |  edit/e [task_number] \n"
+            f"{GREEN}clear  | c{RESET}    → {BOLD}REMOVE{RESET} completed tasks  |  clear/c \n"
+            f"{GREEN}help   | h{RESET}    → {BOLD}SHOW{RESET} this help menu     |  help/h \n"
+            f"{GREEN}exit   | 0{RESET}    → {BOLD}EXIT{RESET} the application    |  exit/0\n"
+            f"{'─' * 66}\n"
             f"{BOLD}Tip:{RESET} You can use Tab for autocomplete.\n"
             f"{BOLD}Pro Tip:{RESET} Navigate the terminal efficiently: arrow keys, backspace, and delete all work.\n"
             f'Hotkeys are available! For full details, see the README: https://github.com/WattoX00/todol\n'
         )
+
+    # load json file
+
+    def load_todos():
+        with open(TODO_JSON, 'r') as f:
+            return json.load(f)
+
+    # save to the json file
+
+    def save_todos(data):
+        with open(TODO_JSON, 'w') as f:
+            json.dump(data, f, indent=4)
+
 
 def cmd_add(args):
     data = Functions.addTask(args)
@@ -253,6 +259,7 @@ class ShellCompleter(Completer):
             for arg in args:
                 if arg.startswith(current):
                     yield Completion(arg, start_position=-len(current))
+
 
 session = PromptSession(
     completer=ShellCompleter(),

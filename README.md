@@ -14,15 +14,16 @@ More Info
 ## COMMAND GUIDE
 
 ```
-─────────────────────────────────────────────────────
-add    | a      → ADD a new task             | add/a [task]
-done   | d      → MARK a task as DONE        | done/d [task_number]
-list   | l      → SHOW your todo list        | list/l 
-remove | rm | r → REMOVE a task              | remove/rm/r [task_number] 
-clear  | c      → REMOVE all completed tasks | clear/c 
-help   | h      → SHOW this help menu        | help/h 
-exit   | 0      → EXIT the application       | exit/0
-─────────────────────────────────────────────────────
+──────────────────────────────────────────────────────────────────
+add    | a    → ADD a new task          |  add/a [task]
+done   | d    → MARK a task as DONE     |  done/d [task_number]
+list   | l    → SHOW your todo list     |  list/l 
+remove | rm   → REMOVE a task           |  remove/rm [task_number] 
+edit   | e    → Edit a task             |  edit/e [task_number] 
+clear  | c    → REMOVE completed tasks  |  clear/c 
+help   | h    → SHOW this help menu     |  help/h 
+exit   | 0    → EXIT the application    |  exit/0
+──────────────────────────────────────────────────────────────────
 Tip: You can use Tab for autocomplete.
 Pro Tip: Navigate the terminal efficiently: arrow keys, backspace, and delete all work.
 ```
