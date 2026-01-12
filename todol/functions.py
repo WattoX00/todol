@@ -66,7 +66,7 @@ class Functions():
         if data['tasks']:
             new_id: str = str(max(map(int, data['tasks'].keys())) + 1)
         else:
-            new_id: str = '0'
+            new_id: str = '1'
 
         data['tasks'][new_id] = task
 
