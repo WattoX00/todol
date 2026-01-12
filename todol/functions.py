@@ -5,22 +5,33 @@ from prompt_toolkit import PromptSession
 from prompt_toolkit.completion import Completer, Completion
 from prompt_toolkit.history import FileHistory
 
+from platformdirs import user_data_dir
+from pathlib import Path
+
 # app start
 
-todoPath: str = 'todoFiles'
-todoJsonPath: str = './todoFiles/main.json'
+DATA_DIR = Path(user_data_dir('todol', 'todol'))
+TODO_DIR = DATA_DIR / 'todoFilees'
+TODO_JSON = TODO_DIR / 'main.json'
+HISTORY_FILE = TODO_DIR / 'history'
 
+TODO_DIR.mkdir(parents = True, exist_ok = True)
 
-if not os.path.exists(todoPath):
-    os.makedirs(todoPath)
-    with open(todoJsonPath, 'w') as f:
-        f.write('{"tasks": {}}')
+if not TODO_JSON.exists():
+    TODO_JSON.write_text('{"tasks": {}}')
 
-# reset history
-
-open('./todoFiles/my_history', 'w').close()
+HISTORY_FILE.touch()
+HISTORY_FILE.write_text('')
 
 class Functions():
+
+    def load_todos():
+        with open(TODO_JSON, 'r') as f:
+            return json.load(f)
+
+    def save_todos(data):
+        with open(TODO_JSON, 'w') as f:
+            json.dump(data, f, indent=4)
 
     # greeting
 
@@ -40,8 +51,7 @@ class Functions():
     # open Json (write on start)
 
     def openJson():
-        with open(todoJsonPath, 'r') as f:
-            data: dict = json.load(f)
+        data: dict = Functions.load_todos()
 
         for key in data['tasks']:
             title: str = data['tasks'][key]['name']
@@ -59,8 +69,7 @@ class Functions():
     # add task to json
 
     def addTaskJson(task):
-        with open(todoJsonPath, 'r') as f:
-            data: dict = json.load(f)
+        data: dict = Functions.load_todos()
 
         if data['tasks']:
             new_id: str = str(max(map(int, data['tasks'].keys())) + 1)
@@ -69,8 +78,7 @@ class Functions():
 
         data['tasks'][new_id] = task
 
-        with open(todoJsonPath, 'w') as f:
-            json.dump(data, f, indent=4)
+        Functions.save_todos(data)
         print(f'\nTask {new_id} Added!\n')
 
     def addTask(full_cmd):
@@ -82,13 +90,14 @@ class Functions():
     # remove task from json
 
     def removeTaskJson(index):
+        
+        data: dict = Functions.load_todos()
+        
         try:
-            with open(todoJsonPath, 'r') as f:
-                data: dict = json.load(f)
-
             del data['tasks'][index]
-            with open(todoJsonPath, 'w') as f:
-                json.dump(data, f, indent=4)
+
+            Functions.save_todos(data)
+
             print(f'\nTask {index} is removed!\n')
 
         except ValueError:
@@ -99,20 +108,22 @@ class Functions():
     # edit task
 
     def editTask(editIndex):
+        
+        data: dict = Functions.load_todos()    
+        
         try:
-            with open(todoJsonPath, 'r') as f:
-                data: dict = json.load(f)
             title: str = data['tasks'][editIndex]['name']
             desc: str = data['tasks'][editIndex]['desc']
             time: str = data['tasks'][editIndex]['time']
+
             editTittle = session.prompt('[todol ~] title (edit) : ', default=title)
             editDesc = session.prompt('[todol ~] description (edit) : ', default=desc)
             editTime = session.prompt('[todol ~] time (edit) : ', default=time)
 
             data['tasks'][editIndex] = {'name': editTittle, 'desc': editDesc, 'time': editTime, 'completed': False}
 
-            with open(todoJsonPath, 'w') as f:
-                json.dump(data, f, indent=4)
+            Functions.save_todos(data)
+
             print(f'\nTask {editIndex} Edited!\n')
 
         except ValueError:
@@ -123,12 +134,14 @@ class Functions():
     # mark task as done in json
 
     def doneTaskJson(doneIndex):
-        with open(todoJsonPath, 'r') as f:
-            data = json.load(f)
+        
+        data: dict = Functions.load_todos()
+        
         try:
             data['tasks'][str(doneIndex)]['completed'] = True
-            with open(todoJsonPath, 'w') as f:
-                json.dump(data, f, indent=4)
+
+            Functions.save_todos(data)
+
             print(f'\nTask {doneIndex} marked Done!\n')
 
         except ValueError:
@@ -139,15 +152,15 @@ class Functions():
     # remove tasks that are completed
 
     def clearTaskJson():
-        with open(todoJsonPath, 'r') as f:
-            data = json.load(f)
+
+        data: dict = Functions.load_todos()
         
         for count in list(data['tasks']):
             if data['tasks'][count]['completed']:
                 del data['tasks'][count]
 
-        with open(todoJsonPath, 'w') as f:
-            json.dump(data, f, indent=4)
+        Functions.save_todos(data)
+
         print('\nTODO list CLEARED!\n')
 
     # print help commands
@@ -160,13 +173,13 @@ class Functions():
         print(
             f"\n{BOLD}COMMAND GUIDE{RESET}\n"
             f"{'─' * 65}\n"
-            f"{GREEN}add    | a{RESET}      → {BOLD}ADD{RESET} a new task | add/a [task]\n"
-            f"{GREEN}done   | d{RESET}      → {BOLD}MARK{RESET} a task as {BOLD}DONE{RESET} | done/d [task_number]\n"
-            f"{GREEN}list   | l{RESET}      → {BOLD}SHOW{RESET} your todo list | list/l \n"
-            f"{GREEN}remove | rm | r{RESET} → {BOLD}REMOVE{RESET} a task | remove/rm/r [task_number] \n"
+            f"{GREEN}add    | a{RESET}      → {BOLD}ADD{RESET} a new task             | add/a [task]\n"
+            f"{GREEN}done   | d{RESET}      → {BOLD}MARK{RESET} a task as {BOLD}DONE{RESET}        | done/d [task_number]\n"
+            f"{GREEN}list   | l{RESET}      → {BOLD}SHOW{RESET} your todo list        | list/l \n"
+            f"{GREEN}remove | rm {RESET}    → {BOLD}REMOVE{RESET} a task              | remove/rm/r [task_number] \n"
             f"{GREEN}clear  | c{RESET}      → {BOLD}REMOVE{RESET} all completed tasks | clear/c \n"
-            f"{GREEN}help   | h{RESET}      → {BOLD}SHOW{RESET} this help menu | help/h \n"
-            f"{GREEN}exit   | 0{RESET}      → {BOLD}EXIT{RESET} the application | exit/0\n"
+            f"{GREEN}help   | h{RESET}      → {BOLD}SHOW{RESET} this help menu        | help/h \n"
+            f"{GREEN}exit   | 0{RESET}      → {BOLD}EXIT{RESET} the application       | exit/0\n"
             f"{'─' * 65}\n"
             f"{BOLD}Tip:{RESET} You can use Tab for autocomplete.\n"
             f"{BOLD}Pro Tip:{RESET} Navigate the terminal efficiently: arrow keys, backspace, and delete all work.\n"
@@ -204,7 +217,7 @@ def aliases(func, *names):
 COMMANDS = {
     **aliases(cmd_add, "add", "a"),
     **aliases(cmd_done, "done", "d"),
-    **aliases(cmd_remove, "remove", "rm", "r"),
+    **aliases(cmd_remove, "remove", "rm"),
     **aliases(cmd_edit, "edit", "e"),
     **aliases(cmd_help, "help", "h"),
     **aliases(cmd_list, "list", "l"),
@@ -244,5 +257,5 @@ class ShellCompleter(Completer):
 session = PromptSession(
     completer=ShellCompleter(),
     complete_while_typing=False,
-    history=FileHistory("./todoFiles/my_history"),
+    history=FileHistory(HISTORY_FILE)
 )
