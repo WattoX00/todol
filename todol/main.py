@@ -1,4 +1,5 @@
-from .functions import Functions, COMMANDS, Prompts
+from .functions import Functions, Prompts, Commands
+
 def main():
     Functions.greetingAppStart()
     Functions.openJson()
@@ -18,7 +19,7 @@ def main():
         parts = raw.split()
         command, *args = parts
 
-        func = COMMANDS.get(command)
+        func = Commands.COMMANDS.get(command)
 
         if not func:
             print(f'{command}: command not found')

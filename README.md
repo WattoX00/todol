@@ -1,4 +1,4 @@
-# Todol - Python ToDo app
+# Todol - Python TUI ToDo app
 
 ## Installation
 

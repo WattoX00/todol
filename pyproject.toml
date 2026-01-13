@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "todol"
 version = "0.2.2"
-description = "A python cli todo app"
+description = "A python TUI todo app"
 readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.9"

@@ -1,17 +1,15 @@
 import json
-import os
 
-from prompt_toolkit import PromptSession
 from prompt_toolkit.completion import Completer, Completion
 from prompt_toolkit.history import FileHistory
 from prompt_toolkit.formatted_text import HTML
+from prompt_toolkit import PromptSession
 
 from rich.console import Console
+from rich.padding import Padding
 from rich.table import Table
 from rich.text import Text
 from rich import print
-
-
 
 from platformdirs import user_data_dir
 from pathlib import Path
@@ -70,7 +68,7 @@ class Functions():
             caption=f"Pending: {len(pending)} | Completed: {len(completed)}"
         )
 
-        table.add_column("ID", style="cyan", width=6, no_wrap=True)
+        table.add_column("ID", style="cyan", width=3, no_wrap=True)
         table.add_column("Task", style="bold white", min_width=20)
         table.add_column("Description", style="dim", overflow="fold")
         table.add_column("Time", style="yellow", width=10)
@@ -79,16 +77,17 @@ class Functions():
         def render_row(task_id, task, completed=False):
             status = Text("DONE", style="bold green") if completed else Text("TODO", style="bold red")
             name = Text(task["name"])
+
             if completed:
                 name.stylize("strike dim")
 
             return [
-                task_id,
-                name,
-                task.get("desc", ""),
-                task.get("time", "-"),
-                status
-            ]
+                Padding(task_id, (1, 0)),
+                Padding(name, (1, 0)),
+                Padding(task.get("desc", ""), (1, 0)),
+                Padding(task.get("time", "-"), (1, 0)),
+                Padding(status, (1, 0)),
+    ]
 
         for task_id, task in pending:
             table.add_row(*render_row(task_id, task))
@@ -232,45 +231,45 @@ class Functions():
         with open(TODO_JSON, 'w') as f:
             json.dump(data, f, indent=4)
 
+class Commands():
+    def cmd_add(args):
+        data = Functions.addTask(args)
+        Functions.addTaskJson(data)
 
-def cmd_add(args):
-    data = Functions.addTask(args)
-    Functions.addTaskJson(data)
+    def cmd_done(args):
+        Functions.doneTaskJson(args[0])
 
-def cmd_done(args):
-    Functions.doneTaskJson(args[0])
+    def cmd_remove(args):
+        Functions.removeTaskJson(args[0])
 
-def cmd_remove(args):
-    Functions.removeTaskJson(args[0])
+    def cmd_edit(args):
+        Functions.editTask(args[0])
 
-def cmd_edit(args):
-    Functions.editTask(args[0])
+    def cmd_help(args):
+        Functions.helpText()
 
-def cmd_help(args):
-    Functions.helpText()
+    def cmd_list(args):
+        Functions.openJson()
 
-def cmd_list(args):
-    Functions.openJson()
+    def cmd_clear(args):
+        Functions.clearTaskJson()
 
-def cmd_clear(args):
-    Functions.clearTaskJson()
+    def cmd_exit(args):
+        raise SystemExit
 
-def cmd_exit(args):
-    raise SystemExit
+    def aliases(func, *names):
+        return {name: func for name in names}
 
-def aliases(func, *names):
-    return {name: func for name in names}
-
-COMMANDS = {
-    **aliases(cmd_add, "add", "a"),
-    **aliases(cmd_done, "done", "d"),
-    **aliases(cmd_remove, "remove", "rm"),
-    **aliases(cmd_edit, "edit", "e"),
-    **aliases(cmd_help, "help", "h"),
-    **aliases(cmd_list, "list", "l"),
-    **aliases(cmd_clear, "clear", "c"),
-    **aliases(cmd_exit, "exit", "0"),
-}
+    COMMANDS = {
+        **aliases(cmd_add, "add", "a"),
+        **aliases(cmd_done, "done", "d"),
+        **aliases(cmd_remove, "remove", "rm"),
+        **aliases(cmd_edit, "edit", "e"),
+        **aliases(cmd_help, "help", "h"),
+        **aliases(cmd_list, "list", "l"),
+        **aliases(cmd_clear, "clear", "c"),
+        **aliases(cmd_exit, "exit", "0"),
+    }
 
 class ShellCompleter(Completer):
     def get_completions(self, document, complete_event):
@@ -281,26 +280,25 @@ class ShellCompleter(Completer):
         words = text.split()
 
         if not words:
-            for cmd in COMMANDS:
+            for cmd in Commands.COMMANDS:
                 yield Completion(cmd, start_position=0)
             return
 
         if len(words) == 1 and not text.endswith(" "):
             current = words[0]
-            for cmd in COMMANDS:
+            for cmd in Commands.COMMANDS:
                 if cmd.startswith(current):
                     yield Completion(cmd, start_position=-len(current))
             return
 
         cmd = words[0]
-        args = COMMANDS.get(cmd, [])
+        args = Commands.COMMANDS.get(cmd, [])
 
         if args:
             current = words[-1] if not text.endswith(" ") else ""
             for arg in args:
                 if arg.startswith(current):
                     yield Completion(arg, start_position=-len(current))
-
 
 class Prompts():
     def line_prefix(n: int) -> str:
