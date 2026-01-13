@@ -6,13 +6,15 @@ from prompt_toolkit.completion import Completer, Completion
 from prompt_toolkit.history import FileHistory
 from prompt_toolkit.formatted_text import HTML
 
-from platformdirs import user_data_dir
-from pathlib import Path
-
 from rich.console import Console
 from rich.table import Table
 from rich.text import Text
+from rich import print
 
+
+
+from platformdirs import user_data_dir
+from pathlib import Path
 
 # app start
 
@@ -42,9 +44,8 @@ class Functions():
    ██     ██████   █████     ██████   ███████
         """)
 
-        print(
-            f'Type h or help to see the available commands and what they do!\n'
-        )
+
+        print('[bold yellow]Type h or help to see the available commands and what they do![/bold yellow]\n')
 
     # open Json (write on start)
 
@@ -112,12 +113,12 @@ class Functions():
         data['tasks'][new_id] = task
 
         Functions.save_todos(data)
-        print(f'\nTask {new_id} Added!\n')
+        print(f'\n[bold yellow]Task {new_id} Added![/bold yellow]\n')
 
     def addTask(full_cmd):
         title: str = " ".join(full_cmd)
-        description: str = desc_session.prompt(HTML('\n<ansiblue>[todol ~] description : </ansiblue>\n'+ line_prefix(1))).strip()
-        time: str = session.prompt('\n[todol ~] time : ').strip()
+        description: str = Prompts.desc_session.prompt(HTML('\n<ansiblue>[todol ~] description : </ansiblue>\n'+ Prompts.line_prefix(1))).strip()
+        time: str = Prompts.session.prompt('\n[todol ~] time : ').strip()
         return {'name': title, 'desc': description, 'time': time, 'completed': False}
 
     # remove task from json
@@ -131,7 +132,7 @@ class Functions():
 
             Functions.save_todos(data)
 
-            print(f'\nTask {index} is removed!\n')
+            print(f'\n[bold yellow]Task {index} is removed![/bold yellow]\n')
 
         except ValueError:
             print('Invalid input. Please enter a valid number.')
@@ -149,15 +150,15 @@ class Functions():
             desc: str = data['tasks'][editIndex]['desc']
             time: str = data['tasks'][editIndex]['time']
 
-            editTittle = session.prompt('[todol ~] title (edit) : ', default=title)
-            editDesc = desc_session.prompt(HTML('\n<ansiblue>[todol ~] description (edit) : </ansiblue>\n'+line_prefix(1)), default=desc)
-            editTime = session.prompt('\n[todol ~] time (edit) : ', default=time)
+            editTittle = Prompts.session.prompt('[todol ~] title (edit) : ', default=title)
+            editDesc = Prompts.desc_session.prompt(HTML('\n<ansiblue>[todol ~] description (edit) : </ansiblue>\n'+Prompts.line_prefix(1)), default=desc)
+            editTime = Prompts.session.prompt('\n[todol ~] time (edit) : ', default=time)   
 
             data['tasks'][editIndex] = {'name': editTittle, 'desc': editDesc, 'time': editTime, 'completed': False}
 
             Functions.save_todos(data)
 
-            print(f'\nTask {editIndex} Edited!\n')
+            print(f'\n[bold yellow]Task {editIndex} Edited![/bold yellow]\n')
 
         except ValueError:
             print('Invalid input. Please enter a valid number.')
@@ -175,7 +176,7 @@ class Functions():
 
             Functions.save_todos(data)
 
-            print(f'\nTask {doneIndex} marked Done!\n')
+            print(f'\n[bold yellow]Task {doneIndex} marked Done![/bold yellow]\n')
 
         except ValueError:
             print('Invalid input. Please enter a valid number.')
@@ -194,7 +195,7 @@ class Functions():
 
         Functions.save_todos(data)
 
-        print('\nTODO list CLEARED!\n')
+        print('\n[bold yellow]TODO list CLEARED![/bold yellow]\n')
 
     # print help commands
 
@@ -301,29 +302,30 @@ class ShellCompleter(Completer):
                     yield Completion(arg, start_position=-len(current))
 
 
-def line_prefix(n: int) -> str:
-    return f"{n:>3} | "
+class Prompts():
+    def line_prefix(n: int) -> str:
+        return f"{n:>3} | "
 
-def prompt_continuation(width, line_number, is_soft_wrap):
-    return line_prefix(line_number +1)
+    def prompt_continuation(width, line_number, is_soft_wrap):
+        return Prompts.line_prefix(line_number +1)
 
-def bottom_toolbar():
-    return HTML(
-        "<style fg='ansiblack' bg='ansiwhite'>"
-        "  Esc+Enter = save   Ctrl+C = cancel   ↑↓ move   "
-        "</style>"
+    def bottom_toolbar():
+        return HTML(
+            "<style fg='ansiblack' bg='ansiwhite'>"
+            "  Esc+Enter = save   Ctrl+C = cancel   ↑↓ move   "
+            "</style>"
+        )
+
+    session = PromptSession(
+        completer=ShellCompleter(),
+        complete_while_typing=False,
+        history=FileHistory(HISTORY_FILE)
     )
 
-session = PromptSession(
-    completer=ShellCompleter(),
-    complete_while_typing=False,
-    history=FileHistory(HISTORY_FILE)
-)
-
-desc_session = PromptSession(
-    completer=ShellCompleter(),
-    complete_while_typing=False,
-    multiline=True,
-    prompt_continuation=prompt_continuation,
-    bottom_toolbar=bottom_toolbar,
-)
+    desc_session = PromptSession(
+        completer=ShellCompleter(),
+        complete_while_typing=False,
+        multiline=True,
+        prompt_continuation=prompt_continuation,
+        bottom_toolbar=bottom_toolbar,
+    )

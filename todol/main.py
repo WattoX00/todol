@@ -1,5 +1,4 @@
-from .functions import Functions, session, COMMANDS
-
+from .functions import Functions, COMMANDS, Prompts
 def main():
     Functions.greetingAppStart()
     Functions.openJson()
@@ -8,7 +7,7 @@ def main():
 
     while True:
         try:
-            raw = session.prompt('[todol ~]$ ').strip()
+            raw = Prompts.session.prompt('[todol ~]$ ').strip()
 
         except KeyboardInterrupt:
             break
