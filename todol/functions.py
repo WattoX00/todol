@@ -4,9 +4,15 @@ import os
 from prompt_toolkit import PromptSession
 from prompt_toolkit.completion import Completer, Completion
 from prompt_toolkit.history import FileHistory
+from prompt_toolkit.formatted_text import HTML
 
 from platformdirs import user_data_dir
 from pathlib import Path
+
+from rich.console import Console
+from rich.table import Table
+from rich.text import Text
+
 
 # app start
 
@@ -43,20 +49,55 @@ class Functions():
     # open Json (write on start)
 
     def openJson():
-        data: dict = Functions.load_todos()
+        console = Console()
+        data = Functions.load_todos()
+        tasks = data.get("tasks", {})
 
-        for key in data['tasks']:
-            title: str = data['tasks'][key]['name']
-            description: str = data['tasks'][key]['desc']
-            time: str = data['tasks'][key]['time']
-            completed: bool = data['tasks'][key]['completed']
-            status: str = "✓" if completed else "✗"
-            print(
-                f'{key}. {title}\n'
-                f'   desc: {description}\n'
-                f'   time: {time}\n'
-                f'   done: [{status}]\n'
-            )
+        pending = []
+        completed = []
+
+        for task_id, task in tasks.items():
+            if task.get("completed"):
+                completed.append((task_id, task))
+            else:
+                pending.append((task_id, task))
+
+        table = Table(
+            show_header=True,
+            header_style="bold magenta",
+            title="Todo List",
+            caption=f"Pending: {len(pending)} | Completed: {len(completed)}"
+        )
+
+        table.add_column("ID", style="cyan", width=6, no_wrap=True)
+        table.add_column("Task", style="bold white", min_width=20)
+        table.add_column("Description", style="dim", overflow="fold")
+        table.add_column("Time", style="yellow", width=10)
+        table.add_column("Status", justify="center", width=10)
+
+        def render_row(task_id, task, completed=False):
+            status = Text("DONE", style="bold green") if completed else Text("TODO", style="bold red")
+            name = Text(task["name"])
+            if completed:
+                name.stylize("strike dim")
+
+            return [
+                task_id,
+                name,
+                task.get("desc", ""),
+                task.get("time", "-"),
+                status
+            ]
+
+        for task_id, task in pending:
+            table.add_row(*render_row(task_id, task))
+
+        if completed:
+            table.add_section()
+            for task_id, task in completed:
+                table.add_row(*render_row(task_id, task, completed=True))
+
+        console.print((table))
 
     # add task to json
 
@@ -75,8 +116,8 @@ class Functions():
 
     def addTask(full_cmd):
         title: str = " ".join(full_cmd)
-        description: str = session.prompt('[todol ~] description : ').strip()
-        time: str = session.prompt('[todol ~] time : ').strip()
+        description: str = desc_session.prompt(HTML('\n<ansiblue>[todol ~] description : </ansiblue>\n'+ line_prefix(1))).strip()
+        time: str = session.prompt('\n[todol ~] time : ').strip()
         return {'name': title, 'desc': description, 'time': time, 'completed': False}
 
     # remove task from json
@@ -109,8 +150,8 @@ class Functions():
             time: str = data['tasks'][editIndex]['time']
 
             editTittle = session.prompt('[todol ~] title (edit) : ', default=title)
-            editDesc = session.prompt('[todol ~] description (edit) : ', default=desc)
-            editTime = session.prompt('[todol ~] time (edit) : ', default=time)
+            editDesc = desc_session.prompt(HTML('\n<ansiblue>[todol ~] description (edit) : </ansiblue>\n'+line_prefix(1)), default=desc)
+            editTime = session.prompt('\n[todol ~] time (edit) : ', default=time)
 
             data['tasks'][editIndex] = {'name': editTittle, 'desc': editDesc, 'time': editTime, 'completed': False}
 
@@ -158,26 +199,25 @@ class Functions():
     # print help commands
 
     def helpText():
-        BOLD = "\033[1m"
-        RESET = "\033[0m"
-        GREEN = "\033[92m"
+        console = Console()
 
-        print(
-            f"\n{BOLD}COMMAND GUIDE{RESET}\n"
-            f"{'─' * 66}\n"
-            f"{GREEN}add    | a{RESET}    → {BOLD}ADD{RESET} a new task          |  add/a [task]\n"
-            f"{GREEN}done   | d{RESET}    → {BOLD}MARK{RESET} a task as {BOLD}DONE{RESET}     |  done/d [task_number]\n"
-            f"{GREEN}list   | l{RESET}    → {BOLD}SHOW{RESET} your todo list     |  list/l \n"
-            f"{GREEN}remove | rm {RESET}  → {BOLD}REMOVE{RESET} a task           |  remove/rm [task_number] \n"
-            f"{GREEN}edit   | e {RESET}   → {BOLD}Edit{RESET} a task             |  edit/e [task_number] \n"
-            f"{GREEN}clear  | c{RESET}    → {BOLD}REMOVE{RESET} completed tasks  |  clear/c \n"
-            f"{GREEN}help   | h{RESET}    → {BOLD}SHOW{RESET} this help menu     |  help/h \n"
-            f"{GREEN}exit   | 0{RESET}    → {BOLD}EXIT{RESET} the application    |  exit/0\n"
-            f"{'─' * 66}\n"
-            f"{BOLD}Tip:{RESET} You can use Tab for autocomplete.\n"
-            f"{BOLD}Pro Tip:{RESET} Navigate the terminal efficiently: arrow keys, backspace, and delete all work.\n"
-            f'Hotkeys are available! For full details, see the README: https://github.com/WattoX00/todol\n'
-        )
+        table = Table(show_header=True, header_style="bold")
+
+        table.add_column("Command", style="cyan", width=10)
+        table.add_column("Alias", style="green", width=6)
+        table.add_column("Action", style="bold")
+        table.add_column("Usage", style="dim")
+
+        table.add_row("add", "a", "Add new task", "add [task]")
+        table.add_row("done", "d", "Mark task done", "done [id]")
+        table.add_row("list", "l", "Show todo list", "list")
+        table.add_row("remove", "rm", "Remove task", "rm [id]")
+        table.add_row("edit", "e", "Edit task", "edit [id]")
+        table.add_row("clear", "c", "Clear done tasks", "clear")
+        table.add_row("help", "h", "Show help", "help")
+        table.add_row("exit", "0", "Exit app", "exit")
+
+        console.print(table)
 
     # load json file
 
@@ -261,8 +301,29 @@ class ShellCompleter(Completer):
                     yield Completion(arg, start_position=-len(current))
 
 
+def line_prefix(n: int) -> str:
+    return f"{n:>3} | "
+
+def prompt_continuation(width, line_number, is_soft_wrap):
+    return line_prefix(line_number +1)
+
+def bottom_toolbar():
+    return HTML(
+        "<style fg='ansiblack' bg='ansiwhite'>"
+        "  Esc+Enter = save   Ctrl+C = cancel   ↑↓ move   "
+        "</style>"
+    )
+
 session = PromptSession(
     completer=ShellCompleter(),
     complete_while_typing=False,
     history=FileHistory(HISTORY_FILE)
+)
+
+desc_session = PromptSession(
+    completer=ShellCompleter(),
+    complete_while_typing=False,
+    multiline=True,
+    prompt_continuation=prompt_continuation,
+    bottom_toolbar=bottom_toolbar,
 )

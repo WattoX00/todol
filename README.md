@@ -14,16 +14,18 @@ More Info
 ## COMMAND GUIDE
 
 ```
-──────────────────────────────────────────────────────────────────
-add    | a    → ADD a new task          |  add/a [task]
-done   | d    → MARK a task as DONE     |  done/d [task_number]
-list   | l    → SHOW your todo list     |  list/l 
-remove | rm   → REMOVE a task           |  remove/rm [task_number] 
-edit   | e    → Edit a task             |  edit/e [task_number] 
-clear  | c    → REMOVE completed tasks  |  clear/c 
-help   | h    → SHOW this help menu     |  help/h 
-exit   | 0    → EXIT the application    |  exit/0
-──────────────────────────────────────────────────────────────────
+┏━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━┓
+┃ Command    ┃ Alias  ┃ Action           ┃ Usage ┃
+┡━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━┩
+│ add        │ a      │ Add new task     │ add   │
+│ done       │ d      │ Mark task done   │ done  │
+│ list       │ l      │ Show todo list   │ list  │
+│ remove     │ rm     │ Remove task      │ rm    │
+│ edit       │ e      │ Edit task        │ edit  │
+│ clear      │ c      │ Clear done tasks │ clear │
+│ help       │ h      │ Show help        │ help  │
+│ exit       │ 0      │ Exit app         │ exit  │
+└────────────┴────────┴──────────────────┴───────┘
 Tip: You can use Tab for autocomplete.
 Pro Tip: Navigate the terminal efficiently: arrow keys, backspace, and delete all work.
 ```
