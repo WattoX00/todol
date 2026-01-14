@@ -4,9 +4,9 @@ from prompt_toolkit.completion import Completer, Completion
 from prompt_toolkit.history import FileHistory
 from prompt_toolkit.formatted_text import HTML
 from prompt_toolkit import PromptSession
+from prompt_toolkit.shortcuts import clear
 
 from rich.console import Console
-from rich.padding import Padding
 from rich.table import Table
 from rich.text import Text
 from rich import print
@@ -17,7 +17,7 @@ from pathlib import Path
 # app start
 
 DATA_DIR = Path(user_data_dir('todol', 'todol'))
-TODO_DIR = DATA_DIR / 'todoFilees'
+TODO_DIR = DATA_DIR / 'todoFiles'
 TODO_JSON = TODO_DIR / 'main.json'
 HISTORY_FILE = TODO_DIR / 'history'
 
@@ -34,6 +34,9 @@ class Functions():
     # greeting
 
     def greetingAppStart():
+
+        clear()
+
         print(r"""
 ████████  ██████   █████     ██████   ██      
    ██    ██    ██  ██   ██  ██    ██  ██      
@@ -41,7 +44,6 @@ class Functions():
    ██    ██    ██  ██   ██  ██    ██  ██      
    ██     ██████   █████     ██████   ███████
         """)
-
 
         print('[bold yellow]Type h or help to see the available commands and what they do![/bold yellow]\n')
 
@@ -82,11 +84,11 @@ class Functions():
                 name.stylize("strike dim")
 
             return [
-                Padding(task_id, (1, 0)),
-                Padding(name, (1, 0)),
-                Padding(task.get("desc", ""), (1, 0)),
-                Padding(task.get("time", "-"), (1, 0)),
-                Padding(status, (1, 0)),
+                f'{task_id}\n',
+                f'{name}\n',
+                f'{task.get("desc", "")}\n',
+                f'{task.get("time", "-")}\n',
+                f'{(status)}\n',
     ]
 
         for task_id, task in pending:
