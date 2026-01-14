@@ -84,12 +84,12 @@ class Functions():
                 name.stylize("strike dim")
 
             return [
-                f'{task_id}\n',
-                f'{name}\n',
-                f'{task.get("desc", "")}\n',
-                f'{task.get("time", "-")}\n',
-                f'{(status)}\n',
-    ]
+                task_id,
+                name,
+                task.get("desc", ""),
+                task.get("time", "-"),
+                status
+            ]
 
         for task_id, task in pending:
             table.add_row(*render_row(task_id, task))
