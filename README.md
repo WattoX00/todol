@@ -10,6 +10,13 @@ More Info
 - Check out the project page on PyPi: [https://pypi.org/project/todol/](https://pypi.org/project/todol/)
 - and on Github: [https://github.com/WattoX00/todol](https://github.com/WattoX00/todol)
 
+`todol` is a terminal application. I recommend installing it with `pipx`.
+
+![Demo](assets/demo.png)
+
+## Running
+
+### Run from anywhere in you terminal with the command `todol`
 
 ## COMMAND GUIDE
 
@@ -29,6 +36,24 @@ More Info
 Tip: You can use Tab for autocomplete.
 Pro Tip: Navigate the terminal efficiently: arrow keys, backspace, and delete all work.
 ```
+
+## FAQ
+
+### Where are the saved todo files stored?
+
+`todol` stores its data using `platformdirs.user_data_dir`, which means files are written to the standard user data directory for each operating system.
+
+#### Default locations
+
+- **Linux**
+`~/.local/share/todol/todoFiles/`
+
+- **macOS**
+`~/Library/Application Support/todol/todoFiles/`
+
+- **Windows**
+`%APPDATA%\todol\todoFiles\`
+
 ## Hotkeys are available!
 
 ### Cursor navigation
@@ -87,6 +112,14 @@ Pro Tip: Navigate the terminal efficiently: arrow keys, backspace, and delete al
 | Arrow keys | Move cursor up/down/left/right       |
 
 For the full official key binding documentation, check the prompt_toolkit docs: [prompt_toolkit GITHUB](https://github.com/prompt-toolkit/python-prompt-toolkit)
+
+## Support
+
+If you find this project helpful and would like to support its development, you can make a donation via the following method:
+
+- [PayPal](https://www.paypal.com/paypalme/wattox)
+
+Your contribution helps in maintaining and improving the app. Thank you for your support!
 
 ## License
 
