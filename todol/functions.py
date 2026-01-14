@@ -312,7 +312,8 @@ class Prompts():
     def bottom_toolbar():
         return HTML(
             "<style fg='ansiblack' bg='ansiwhite'>"
-            "  Esc+Enter = save   Ctrl+C = cancel   ↑↓ move   "
+            "  Esc+Enter: Save   Enter: New line   "
+            "↑/↓: Move   Ctrl+U: Clear line  "
             "</style>"
         )
 
