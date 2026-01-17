@@ -18,3 +18,4 @@ dependencies = [
 
 [project.scripts]
 todol = "todol.main:main"
+todol-version = "todol.todol_version:main"
