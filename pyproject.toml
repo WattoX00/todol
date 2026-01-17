@@ -18,4 +18,7 @@ dependencies = [
 
 [project.scripts]
 todol = "todol.main:main"
-todol-version = "todol.todol_version:main"
+todol-help = "todol.flags.todol_help:main"
+todol-path = "todol.flags.todol_path:main"
+todol-version = "todol.flags.todol_version:main"
+todol-upgrade = "todol.flags.todol_upgrade:main"
