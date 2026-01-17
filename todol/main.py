@@ -19,7 +19,7 @@ def main():
         command, *args = parts
 
         func = Commands.COMMANDS.get(command)
-
+        
         if not func:
             print(f'{command}: command not found')
             continue

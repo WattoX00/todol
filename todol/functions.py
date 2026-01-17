@@ -132,11 +132,28 @@ class Functions():
         data: dict = Functions.load_todos()
         
         try:
-            del data['tasks'][index]
+            if index[0] == "all":
+                data['tasks'].clear()
 
+                print(f'\n[bold yellow]All Tasks been removed![/bold yellow]\n')
+            else:
+                for arg in index:
+
+                    if "-" in arg:
+                        min_i, max_i = arg.split("-")
+
+                        for task in range(int(min_i), int(max_i) + 1):
+                            task = str(task)
+                            if task in data['tasks']:
+                                del data['tasks'][task]
+
+                        print(f'\n[bold yellow]Tasks {index[0]} been removed![/bold yellow]\n')
+
+                    else:
+                        del data['tasks'][str(arg)]
+
+                        print(f'\n[bold yellow]Task(s) {index} been removed![/bold yellow]\n')
             Functions.save_todos(data)
-
-            print(f'\n[bold yellow]Task {index} is removed![/bold yellow]\n')
 
         except ValueError:
             print('Invalid input. Please enter a valid number.')
@@ -174,13 +191,29 @@ class Functions():
     def doneTaskJson(doneIndex):
         
         data: dict = Functions.load_todos()
-        
+
         try:
-            data['tasks'][str(doneIndex)]['completed'] = True
+            if doneIndex[0] == "all":
+                for key in data['tasks']:
+                    data['tasks'][key]['completed'] = True
+
+            else:
+                for arg in doneIndex:
+                
+                    if "-" in arg:
+                        min_i, max_i = arg.split("-")
+
+                        for task in range(int(min_i), int(max_i) + 1):
+                            task = str(task)
+                            if task in data['tasks']:
+                                data['tasks'][task]['completed'] = True
+
+                    else:
+                        data['tasks'][str(arg)]['completed'] = True
 
             Functions.save_todos(data)
 
-            print(f'\n[bold yellow]Task {doneIndex} marked Done![/bold yellow]\n')
+            print(f'\n[bold yellow]Task(s) {doneIndex} marked Done![/bold yellow]\n')
 
         except ValueError:
             print('Invalid input. Please enter a valid number.')
@@ -243,10 +276,10 @@ class Commands():
         Functions.addTaskJson(data)
 
     def cmd_done(args):
-        Functions.doneTaskJson(args[0])
+        Functions.doneTaskJson(args)
 
     def cmd_remove(args):
-        Functions.removeTaskJson(args[0])
+        Functions.removeTaskJson(args)
 
     def cmd_edit(args):
         Functions.editTask(args[0])
