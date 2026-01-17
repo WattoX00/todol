@@ -257,6 +257,17 @@ class Functions():
         table.add_row("exit", "0", "Exit app", "exit")
 
         console.print(table)
+        print(
+            "\nBatch Operations:\n"
+            "You can apply commands to multiple tasks at once:\n"
+            "  - Use 'all' to target all tasks\n"
+            "  - Specify a range with 'start-end', e.g., 2-5\n"
+            "  - List multiple IDs separated by spaces, e.g., 1 3 7\n"
+            "Examples:\n"
+            "  done all       # mark all tasks done\n"
+            "  rm 2-4         # remove tasks 2, 3, 4\n"
+            "  done 1 5 7     # mark tasks 1, 5, and 7 done"
+        )
 
     # load json file
 

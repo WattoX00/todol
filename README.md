@@ -5,41 +5,90 @@
 ```
 pip install todol
 ```
+
+`todol` is a terminal application. I recommend installing it with `pipx`.
+
 More Info
 
 - Check out the project page on PyPi: [https://pypi.org/project/todol/](https://pypi.org/project/todol/)
 - and on Github: [https://github.com/WattoX00/todol](https://github.com/WattoX00/todol)
 
-`todol` is a terminal application. I recommend installing it with `pipx`.
-
 ![Demo](assets/demo.png)
 
 ## Running
 
-### Run from anywhere in you terminal with the command `todol`
+### Run from anywhere in your terminal
+
+```
+todol
+```
+
+### Additional flags
+
+View all flags (for more options):
+
+```
+todol-help
+```
+
+Check the current version:
+
+```
+todol-version
+```
+
+See where todo files are saved:
+
+```
+todol-path
+```
+
+Update todol with a single command
+
+This runs `pipx upgrade todol` under the hood.
+
+```
+todol-upgrade
+```
 
 ## COMMAND GUIDE
 
 ```
-┏━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━┓
-┃ Command    ┃ Alias  ┃ Action           ┃ Usage ┃
-┡━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━┩
-│ add        │ a      │ Add new task     │ add   │
-│ done       │ d      │ Mark task done   │ done  │
-│ list       │ l      │ Show todo list   │ list  │
-│ remove     │ rm     │ Remove task      │ rm    │
-│ edit       │ e      │ Edit task        │ edit  │
-│ clear      │ c      │ Clear done tasks │ clear │
-│ help       │ h      │ Show help        │ help  │
-│ exit       │ 0      │ Exit app         │ exit  │
-└────────────┴────────┴──────────────────┴───────┘
-Tip: You can use Tab for autocomplete.
-Pro Tip: Navigate the terminal efficiently: arrow keys, backspace, and delete all work.
+ Command     Alias      Action          Usage 
+
+ add         a       Add new task       add [task]
+ done        d       Mark task done     done [id]
+ list        l       Show todo list     list
+ remove      rm      Remove task        rm [id]
+ edit        e       Edit task          edit [id]
+ clear       c       Clear done tasks   clear
+ help        h       Show help          help
+ reload    reset     Reload the app     reload
+ exit        0       Exit app           exit
+```
+### Pro Tips: 
+- You can use Tab for autocomplete.
+- Navigate the terminal efficiently: arrow keys, backspace, and delete all work.
+- You can execute multiple commands at once:
+    - all - apply the command to all items
+
+    - id-id – apply the command to a range of IDs
+
+    - id1 id2 id3 – apply the command to specific IDs
+
+### examples:
+
+```
+done all       # marks all tasks as done
+remove 4-7     # removes tasks with IDs 4 through 7
+rm 3 5 8       # removes tasks 3, 5, and 8
 ```
 
 ## FAQ
 
 ### Where are the saved todo files stored?
+
+#### You can simply check it by running `todol-path`
 
 `todol` stores its data using `platformdirs.user_data_dir`, which means files are written to the standard user data directory for each operating system.
 
