@@ -4,10 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "todol"
-version = "0.2.8"
+version = "0.2.9"
 description = "A python TUI todo app"
 readme = "README.md"
-license = { file = "LICENSE" }
+license-files = ["LICENSE"]
 requires-python = ">=3.9"
 
 dependencies = [
@@ -23,3 +23,6 @@ todol-help = "todol.flags.todol_help:main"
 todol-path = "todol.flags.todol_path:main"
 todol-version = "todol.flags.todol_version:main"
 todol-upgrade = "todol.flags.todol_upgrade:main"
+
+[tool.setuptools]
+packages = ["todol"]
