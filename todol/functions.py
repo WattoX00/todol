@@ -32,6 +32,7 @@ HISTORY_FILE.write_text('')
 class Functions():
 
     # greeting
+    # reload view
 
     def greetingAppStart():
 
@@ -46,6 +47,8 @@ class Functions():
         """)
 
         print('[bold yellow]Type h or help to see the available commands and what they do![/bold yellow]\n')
+        
+        Functions.openJson()
 
     # open Json (write on start)
 
@@ -217,6 +220,7 @@ class Functions():
         table.add_row("edit", "e", "Edit task", "edit [id]")
         table.add_row("clear", "c", "Clear done tasks", "clear")
         table.add_row("help", "h", "Show help", "help")
+        table.add_row("reload", "reset", "Reload the app", "reload")
         table.add_row("exit", "0", "Exit app", "exit")
 
         console.print(table)
@@ -256,6 +260,9 @@ class Commands():
     def cmd_clear(args):
         Functions.clearTaskJson()
 
+    def cmd_reload(args):
+        Functions.greetingAppStart()
+
     def cmd_exit(args):
         raise SystemExit
 
@@ -270,6 +277,7 @@ class Commands():
         **aliases(cmd_help, "help", "h"),
         **aliases(cmd_list, "list", "l"),
         **aliases(cmd_clear, "clear", "c"),
+        **aliases(cmd_reload, "reload", "reset"),
         **aliases(cmd_exit, "exit", "0"),
     }
 

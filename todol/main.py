@@ -2,7 +2,6 @@ from .functions import Functions, Prompts, Commands
 
 def main():
     Functions.greetingAppStart()
-    Functions.openJson()
 
     # main loop
 

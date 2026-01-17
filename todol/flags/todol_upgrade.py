@@ -19,7 +19,7 @@ def main():
         latest_version = "unknown"
 
     if installed_version == latest_version:
-        print(f"{PACKAGE_NAME} {installed_version} (Your package is up to date!)")
+        print(f"{PACKAGE_NAME} {installed_version} Your packages are up to date")
     else:
         print(f"{PACKAGE_NAME} {installed_version} (newer version available: {latest_version})")
 

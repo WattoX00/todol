@@ -18,8 +18,8 @@ def main():
         latest_version = "unknown"
 
     if installed_version == latest_version:
-        print(f"{PACKAGE_NAME} {installed_version} (LTS: latest version available)")
+        print(f"{PACKAGE_NAME} {installed_version} LTS")
     else:
-        print(f"{PACKAGE_NAME} {installed_version} (newer version available: {latest_version})")
+        print(f"{PACKAGE_NAME} {installed_version} newer version available: {latest_version}")
     
     sys.exit(0)
