@@ -6,6 +6,10 @@ from prompt_toolkit.formatted_text import HTML
 from prompt_toolkit import PromptSession
 from prompt_toolkit.shortcuts import clear
 
+from prompt_toolkit.key_binding import KeyBindings
+from prompt_toolkit.filters import Condition
+from prompt_toolkit.application.current import get_app
+
 from rich.console import Console
 from rich.table import Table
 from rich.text import Text
@@ -121,7 +125,7 @@ class Functions():
 
     def addTask(full_cmd):
         title: str = " ".join(full_cmd)
-        description: str = Prompts.desc_session.prompt(HTML('\n<ansiblue>[todol ~] description : </ansiblue>\n'+ Prompts.line_prefix(1))).strip()
+        description: str = Prompts.session.prompt(HTML('\n<ansiblue>[todol ~] description : </ansiblue>\n'+ Prompts.line_prefix(1))).strip()
         time: str = Prompts.session.prompt('\n[todol ~] time : ').strip()
         return {'name': title, 'desc': description, 'time': time, 'completed': False}
 
@@ -172,7 +176,9 @@ class Functions():
             time: str = data['tasks'][editIndex]['time']
 
             editTittle = Prompts.session.prompt('[todol ~] title (edit) : ', default=title)
-            editDesc = Prompts.desc_session.prompt(HTML('\n<ansiblue>[todol ~] description (edit) : </ansiblue>\n'+Prompts.line_prefix(1)), default=desc)
+            
+            editDesc = Prompts.session.prompt(HTML('\n<ansiblue>[todol ~] description (edit) : </ansiblue>\n'+Prompts.line_prefix(1)), default=desc)
+            
             editTime = Prompts.session.prompt('\n[todol ~] time (edit) : ', default=time)   
 
             data['tasks'][editIndex] = {'name': editTittle, 'desc': editDesc, 'time': editTime, 'completed': False}
@@ -319,10 +325,10 @@ class Commands():
         **aliases(cmd_remove, "remove", "rm"),
         **aliases(cmd_edit, "edit", "e"),
         **aliases(cmd_help, "help", "h"),
-        **aliases(cmd_list, "list", "l"),
-        **aliases(cmd_clear, "clear", "c"),
+        **aliases(cmd_list, "list", "ll", "ls", "l"),
+        **aliases(cmd_clear, "clear", "clean", "c"),
         **aliases(cmd_reload, "reload", "reset"),
-        **aliases(cmd_exit, "exit", "0"),
+        **aliases(cmd_exit, "exit", "0", "q"),
     }
 
 class ShellCompleter(Completer):
@@ -354,31 +360,73 @@ class ShellCompleter(Completer):
                 if arg.startswith(current):
                     yield Completion(arg, start_position=-len(current))
 
-class Prompts():
+
+class Prompts:
+    kb = KeyBindings()
+
+    @staticmethod
     def line_prefix(n: int) -> str:
         return f"{n:>3} | "
 
+    @staticmethod
     def prompt_continuation(width, line_number, is_soft_wrap):
-        return Prompts.line_prefix(line_number +1)
+        return Prompts.line_prefix(line_number + 1)
 
-    def bottom_toolbar():
-        return HTML(
-            "<style fg='ansiblack' bg='ansiwhite'>"
-            "  Esc+Enter: Save   Enter: New line   "
-            "↑/↓: Move   Ctrl+U: Clear line  "
-            "</style>"
-        )
+    @staticmethod
+    def editing_bottom_toolbar():
+            text = (
+                "[MULTILINE MODE]  "
+                "Switch mode: Ctrl+D  |  "
+                "Save: Esc+Enter  |  "
+                "New line: Enter  |  "
+                "Move: ↑/↓  |  "
+                "Clear line: Ctrl+U"
+            )
+            app = get_app()
+            width = app.output.get_size().columns
+            padded = text.ljust(width)
+            return HTML(f"<style fg='ansiblack' bg='ansiwhite'>{padded}</style>")
+
+    @staticmethod
+    def normal_bottom_toolbar():
+            text = (
+                "[NORMAL MODE]  "
+                "Switch mode: Ctrl+D  |  "
+                "Execute: Enter"
+            )
+            app = get_app()
+            width = app.output.get_size().columns
+            padded = text.ljust(width)
+            return HTML(f"<style fg='ansiblack' bg='ansiwhite'>{padded}</style>")
+    @Condition
+    def desc_mode():
+        return getattr(Prompts.session, "_desc_mode", False)
+
+    @staticmethod
+    def dynamic_multiline():
+        return Prompts._desc_mode()
+
+    def dynamic_prompt_continuation(width, line_number, is_soft_wrap):
+        if Prompts.desc_mode():
+            return Prompts.prompt_continuation(width, line_number, is_soft_wrap)
+        return ""
+
+    def dynamic_toolbar():
+        if Prompts.desc_mode():
+            return Prompts.editing_bottom_toolbar()
+        return Prompts.normal_bottom_toolbar()
+
+    @kb.add("c-d")
+    def toggle_desc_mode(event):
+        Prompts.session._desc_mode = not getattr(Prompts.session, "_desc_mode", False)
+        event.app.invalidate()
 
     session = PromptSession(
         completer=ShellCompleter(),
         complete_while_typing=False,
-        history=FileHistory(HISTORY_FILE)
-    )
-
-    desc_session = PromptSession(
-        completer=ShellCompleter(),
-        complete_while_typing=False,
-        multiline=True,
-        prompt_continuation=prompt_continuation,
-        bottom_toolbar=bottom_toolbar,
+        history=FileHistory(HISTORY_FILE),
+        multiline=desc_mode,
+        prompt_continuation=dynamic_prompt_continuation,
+        bottom_toolbar=dynamic_toolbar,
+        key_bindings=kb,
     )

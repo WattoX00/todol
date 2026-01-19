@@ -1,4 +1,4 @@
-from .functions import Functions, Prompts, Commands
+from .functions import Functions, Commands, Prompts
 
 def main():
     Functions.greetingAppStart()
