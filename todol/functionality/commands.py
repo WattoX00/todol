@@ -1,6 +1,8 @@
 from .functions import Functions
 from .prompts import Prompts
 
+from rich import print
+
 from prompt_toolkit.formatted_text import HTML
 
 class Commands():
@@ -21,11 +23,11 @@ class Commands():
     def cmd_edit(args):
         try:
             taskId = args[0]
-            task = Functions.getTask(taskId)
+            task = Functions.getAllTasks()
 
-            title: str = task['name']
-            desc: str = task['desc']
-            time: str = task['time']
+            title: str = task[taskId]['name']
+            desc: str = task[taskId]['desc']
+            time: str = task[taskId]['time']
 
             editTittle = Prompts.session.prompt('[todol ~] title (edit) : ', default=title)
             
@@ -41,7 +43,6 @@ class Commands():
             print('Invalid input. Please enter a valid number.')
         except KeyError:
             print('Invalid input. Please enter a valid number.')
-
 
     def cmd_help(args):
         Functions.helpText()

@@ -1,12 +1,13 @@
-from .files import todoJsonListPath
+from .paths import todoJsonListPath
+
+import json
+
 from rich.console import Console
 from rich.table import Table
 from rich.text import Text
 from rich import print
-from prompt_toolkit.shortcuts import clear
-import json
 
-from prompt_toolkit.formatted_text import HTML
+from prompt_toolkit.shortcuts import clear
 
 class Functions():
 
@@ -29,7 +30,7 @@ class Functions():
         
         Functions.openJson()
 
-    def getAllTasks():
+    def getAllTasks() -> dict:
         data = Functions.load_todos()
         return data['tasks']
 
@@ -46,7 +47,7 @@ class Functions():
 
     # open Json (write on start)
 
-    def openJson():
+    def openJson() -> list:
         console = Console()
         tasks = Functions.getAllTasks()
 
@@ -99,7 +100,7 @@ class Functions():
 
     # add task to json
 
-    def addTaskJson(task):
+    def addTaskJson(task: dict):
         data: dict = Functions.load_todos()
 
         if data['tasks']:
@@ -113,7 +114,7 @@ class Functions():
         print(f'\n[bold yellow]Task {new_id} Added![/bold yellow]\n')
 
 
-    def build_task(title: str, desc: str, time) -> dict:
+    def build_task(title: str, desc: str, time):
         task = {
             "name": title,
             "desc": desc,
@@ -125,10 +126,10 @@ class Functions():
 
     # remove task from json
 
-    def removeTaskJson(index):
-        
+    def removeTaskJson(index: list) -> str:
+
         data: dict = Functions.load_todos()
-        
+
         try:
             if index[0] == "all":
                 data['tasks'].clear()
@@ -160,8 +161,8 @@ class Functions():
 
     # mark task as done in json
 
-    def doneTaskJson(doneIndex):
-        
+    def doneTaskJson(doneIndex: list) -> str:
+
         data: dict = Functions.load_todos()
 
         try:
@@ -208,7 +209,7 @@ class Functions():
 
     # print help commands
 
-    def helpText():
+    def helpText() -> str:
         console = Console()
 
         table = Table(show_header=True, header_style="bold")
@@ -243,12 +244,12 @@ class Functions():
 
     # load json file
 
-    def load_todos():
+    def load_todos() -> dict:
         with open(todoJsonListPath(), 'r') as f:
             return json.load(f)
 
     # save to the json file
 
-    def save_todos(data):
+    def save_todos(data: dict):
         with open(todoJsonListPath(), 'w') as f:
             json.dump(data, f, indent=4)

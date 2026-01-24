@@ -1,11 +1,11 @@
 from .shellcompleter import ShellCompleter
-from .files import todoHistoryFilePath
+from .paths import todoHistoryFilePath
 
+from prompt_toolkit import PromptSession
+from prompt_toolkit.filters import Condition
 from prompt_toolkit.history import FileHistory
 from prompt_toolkit.formatted_text import HTML
-from prompt_toolkit import PromptSession
 from prompt_toolkit.key_binding import KeyBindings
-from prompt_toolkit.filters import Condition
 from prompt_toolkit.application.current import get_app
 
 class Prompts:
