@@ -9,8 +9,8 @@ class Commands():
     def cmd_add(args):
         title = " ".join(args)
 
-        description: str = Prompts.session.prompt(HTML('\n<ansiblue>[todol ~] description : </ansiblue>\n'+ Prompts.line_prefix(1))).strip()
-        time: str = Prompts.session.prompt('\n[todol ~] time : ').strip()
+        description: str = Prompts.session.prompt(HTML('\n<ansiblue>todol ~ description : </ansiblue>\n'+ Prompts.line_prefix(1))).strip()
+        time: str = Prompts.session.prompt('\ntodol ~ time : ').strip()
 
         Functions.build_task(title, description, time)
 
@@ -29,11 +29,11 @@ class Commands():
             desc: str = task[taskId]['desc']
             time: str = task[taskId]['time']
 
-            editTittle = Prompts.session.prompt('[todol ~] title (edit) : ', default=title)
+            editTittle = Prompts.session.prompt('todol ~ title (edit) : ', default=title)
             
-            editDesc = Prompts.session.prompt(HTML('\n<ansiblue>[todol ~] description (edit) : </ansiblue>\n'+Prompts.line_prefix(1)), default=desc)
+            editDesc = Prompts.session.prompt(HTML('\n<ansiblue>todol ~ description (edit) : </ansiblue>\n'+Prompts.line_prefix(1)), default=desc)
             
-            editTime = Prompts.session.prompt('\n[todol ~] time (edit) : ', default=time)   
+            editTime = Prompts.session.prompt('\ntodol ~ time (edit) : ', default=time)   
 
             Functions.update_task(taskId, editTittle, editDesc, editTime)
 

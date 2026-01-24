@@ -9,7 +9,7 @@ def main():
 
     while True:
         try:
-            raw = Prompts.session.prompt('[todol ~]$ ').strip()
+            raw = Prompts.session.prompt('todol ~ $ ').strip()
 
         except KeyboardInterrupt:
             break
@@ -34,4 +34,3 @@ def main():
             break
         except KeyboardInterrupt:
             break
-main()
