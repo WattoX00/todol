@@ -11,3 +11,6 @@ venv/
 # Bytecode
 __pycache__/
 *.pyc
+
+# Test files
+test.py

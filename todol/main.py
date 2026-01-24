@@ -1,4 +1,5 @@
-from .functions import Functions, Commands, Prompts
+from .functions import Functions, Commands
+from .prompts import Prompts
 
 def main():
     Functions.greetingAppStart()
@@ -32,3 +33,4 @@ def main():
             break
         except KeyboardInterrupt:
             break
+main()

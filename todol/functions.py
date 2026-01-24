@@ -1,37 +1,12 @@
-import json
-
-from prompt_toolkit.completion import Completer, Completion
-from prompt_toolkit.history import FileHistory
-from prompt_toolkit.formatted_text import HTML
-from prompt_toolkit import PromptSession
-from prompt_toolkit.shortcuts import clear
-
-from prompt_toolkit.key_binding import KeyBindings
-from prompt_toolkit.filters import Condition
-from prompt_toolkit.application.current import get_app
-
+from .files import todoJsonListPath
 from rich.console import Console
 from rich.table import Table
 from rich.text import Text
 from rich import print
+from prompt_toolkit.shortcuts import clear
+import json
 
-from platformdirs import user_data_dir
-from pathlib import Path
-
-# app start
-
-DATA_DIR = Path(user_data_dir('todol', 'todol'))
-TODO_DIR = DATA_DIR / 'todoFiles'
-TODO_JSON = TODO_DIR / 'main.json'
-HISTORY_FILE = TODO_DIR / 'history'
-
-TODO_DIR.mkdir(parents = True, exist_ok = True)
-
-if not TODO_JSON.exists():
-    TODO_JSON.write_text('{"tasks": {}}')
-
-HISTORY_FILE.touch()
-HISTORY_FILE.write_text('')
+from prompt_toolkit.formatted_text import HTML
 
 class Functions():
 
@@ -110,6 +85,13 @@ class Functions():
 
     # add task to json
 
+    """
+    Due: in 3h
+    Due: in 2d 4h
+    Due: tomorrow 9am
+    Due: next monday 14:00
+    """
+
     def addTaskJson(task):
         data: dict = Functions.load_todos()
 
@@ -123,11 +105,14 @@ class Functions():
         Functions.save_todos(data)
         print(f'\n[bold yellow]Task {new_id} Added![/bold yellow]\n')
 
-    def addTask(full_cmd):
-        title: str = " ".join(full_cmd)
-        description: str = Prompts.session.prompt(HTML('\n<ansiblue>[todol ~] description : </ansiblue>\n'+ Prompts.line_prefix(1))).strip()
-        time: str = Prompts.session.prompt('\n[todol ~] time : ').strip()
-        return {'name': title, 'desc': description, 'time': time, 'completed': False}
+
+    def build_task(title, desc, time):
+        return {
+            "name": title,
+            "desc": desc,
+            "time": time,
+            "completed": False,
+        }
 
     # remove task from json
 
@@ -158,34 +143,6 @@ class Functions():
 
                         print(f'\n[bold yellow]Task(s) {index} been removed![/bold yellow]\n')
             Functions.save_todos(data)
-
-        except ValueError:
-            print('Invalid input. Please enter a valid number.')
-        except KeyError:
-            print('Invalid input. Please enter a valid number.')
-
-    # edit task
-
-    def editTask(editIndex):
-        
-        data: dict = Functions.load_todos()    
-        
-        try:
-            title: str = data['tasks'][editIndex]['name']
-            desc: str = data['tasks'][editIndex]['desc']
-            time: str = data['tasks'][editIndex]['time']
-
-            editTittle = Prompts.session.prompt('[todol ~] title (edit) : ', default=title)
-            
-            editDesc = Prompts.session.prompt(HTML('\n<ansiblue>[todol ~] description (edit) : </ansiblue>\n'+Prompts.line_prefix(1)), default=desc)
-            
-            editTime = Prompts.session.prompt('\n[todol ~] time (edit) : ', default=time)   
-
-            data['tasks'][editIndex] = {'name': editTittle, 'desc': editDesc, 'time': editTime, 'completed': False}
-
-            Functions.save_todos(data)
-
-            print(f'\n[bold yellow]Task {editIndex} Edited![/bold yellow]\n')
 
         except ValueError:
             print('Invalid input. Please enter a valid number.')
@@ -278,155 +235,11 @@ class Functions():
     # load json file
 
     def load_todos():
-        with open(TODO_JSON, 'r') as f:
+        with open(todoJsonListPath(), 'r') as f:
             return json.load(f)
 
     # save to the json file
 
     def save_todos(data):
-        with open(TODO_JSON, 'w') as f:
+        with open(todoJsonListPath(), 'w') as f:
             json.dump(data, f, indent=4)
-
-class Commands():
-    def cmd_add(args):
-        data = Functions.addTask(args)
-        Functions.addTaskJson(data)
-
-    def cmd_done(args):
-        Functions.doneTaskJson(args)
-
-    def cmd_remove(args):
-        Functions.removeTaskJson(args)
-
-    def cmd_edit(args):
-        Functions.editTask(args[0])
-
-    def cmd_help(args):
-        Functions.helpText()
-
-    def cmd_list(args):
-        Functions.openJson()
-
-    def cmd_clear(args):
-        Functions.clearTaskJson()
-
-    def cmd_reload(args):
-        Functions.greetingAppStart()
-
-    def cmd_exit(args):
-        raise SystemExit
-
-    def aliases(func, *names):
-        return {name: func for name in names}
-
-    COMMANDS = {
-        **aliases(cmd_add, "add", "a"),
-        **aliases(cmd_done, "done", "d"),
-        **aliases(cmd_remove, "remove", "rm"),
-        **aliases(cmd_edit, "edit", "e"),
-        **aliases(cmd_help, "help", "h"),
-        **aliases(cmd_list, "list", "ll", "ls", "l"),
-        **aliases(cmd_clear, "clear", "clean", "c"),
-        **aliases(cmd_reload, "reload", "reset"),
-        **aliases(cmd_exit, "exit", "0", "q"),
-    }
-
-class ShellCompleter(Completer):
-    def get_completions(self, document, complete_event):
-        if not complete_event.completion_requested:
-            return
-
-        text = document.text_before_cursor
-        words = text.split()
-
-        if not words:
-            for cmd in Commands.COMMANDS:
-                yield Completion(cmd, start_position=0)
-            return
-
-        if len(words) == 1 and not text.endswith(" "):
-            current = words[0]
-            for cmd in Commands.COMMANDS:
-                if cmd.startswith(current):
-                    yield Completion(cmd, start_position=-len(current))
-            return
-
-        cmd = words[0]
-        args = Commands.COMMANDS.get(cmd, [])
-
-        if args:
-            current = words[-1] if not text.endswith(" ") else ""
-            for arg in args:
-                if arg.startswith(current):
-                    yield Completion(arg, start_position=-len(current))
-
-
-class Prompts:
-    kb = KeyBindings()
-
-    @staticmethod
-    def line_prefix(n: int) -> str:
-        return f"{n:>3} | "
-
-    @staticmethod
-    def prompt_continuation(width, line_number, is_soft_wrap):
-        return Prompts.line_prefix(line_number + 1)
-
-    @staticmethod
-    def editing_bottom_toolbar():
-            text = (
-                "[MULTILINE MODE]  "
-                "Switch mode: Ctrl+D  |  "
-                "Save: Esc+Enter  |  "
-                "New line: Enter  |  "
-                "Move: ↑/↓  |  "
-                "Clear line: Ctrl+U"
-            )
-            app = get_app()
-            width = app.output.get_size().columns
-            padded = text.ljust(width)
-            return HTML(f"<style fg='ansiblack' bg='ansiwhite'>{padded}</style>")
-
-    @staticmethod
-    def normal_bottom_toolbar():
-            text = (
-                "[NORMAL MODE]  "
-                "Switch mode: Ctrl+D  |  "
-                "Execute: Enter"
-            )
-            app = get_app()
-            width = app.output.get_size().columns
-            padded = text.ljust(width)
-            return HTML(f"<style fg='ansiblack' bg='ansiwhite'>{padded}</style>")
-    @Condition
-    def desc_mode():
-        return getattr(Prompts.session, "_desc_mode", False)
-
-    @staticmethod
-    def dynamic_multiline():
-        return Prompts._desc_mode()
-
-    def dynamic_prompt_continuation(width, line_number, is_soft_wrap):
-        if Prompts.desc_mode():
-            return Prompts.prompt_continuation(width, line_number, is_soft_wrap)
-        return ""
-
-    def dynamic_toolbar():
-        if Prompts.desc_mode():
-            return Prompts.editing_bottom_toolbar()
-        return Prompts.normal_bottom_toolbar()
-
-    @kb.add("c-d")
-    def toggle_desc_mode(event):
-        Prompts.session._desc_mode = not getattr(Prompts.session, "_desc_mode", False)
-        event.app.invalidate()
-
-    session = PromptSession(
-        completer=ShellCompleter(),
-        complete_while_typing=False,
-        history=FileHistory(HISTORY_FILE),
-        multiline=desc_mode,
-        prompt_continuation=dynamic_prompt_continuation,
-        bottom_toolbar=dynamic_toolbar,
-        key_bindings=kb,
-    )
