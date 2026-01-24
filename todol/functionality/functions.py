@@ -33,17 +33,14 @@ class Functions():
         data = Functions.load_todos()
         return data['tasks']
 
-    def getTask(task_id):
-        data = Functions.load_todos()
-        return data['tasks'][task_id]
-
     def update_task(task_id: str, name: str, desc: str, time: str):
-            data = Functions.getTask(task_id)
-            data = {
+
+            data = Functions.load_todos()
+            data['tasks'][task_id] = {
                 "name": name,
                 "desc": desc,
                 "time": time,
-                "completed": data['tasks'][task_id]["completed"],
+                "completed": False,
             }
             Functions.save_todos(data)
 
@@ -51,8 +48,7 @@ class Functions():
 
     def openJson():
         console = Console()
-        data = Functions.load_todos()
-        tasks = data.get("tasks", {})
+        tasks = Functions.getAllTasks()
 
         pending = []
         completed = []
@@ -117,13 +113,15 @@ class Functions():
         print(f'\n[bold yellow]Task {new_id} Added![/bold yellow]\n')
 
 
-    def build_task(title, desc, time):
-        return {
+    def build_task(title: str, desc: str, time) -> dict:
+        task = {
             "name": title,
             "desc": desc,
             "time": time,
             "completed": False,
         }
+        
+        Functions.addTaskJson(task)
 
     # remove task from json
 

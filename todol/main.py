@@ -1,6 +1,6 @@
 from .functionality.functions import Functions
 from .functionality.prompts import Prompts
-from .functionality.commands import Commands
+from .functionality.commands_list import COMMANDS
 
 def main():
     Functions.greetingAppStart()
@@ -20,7 +20,7 @@ def main():
         parts = raw.split()
         command, *args = parts
 
-        func = Commands.COMMANDS.get(command)
+        func = COMMANDS.get(command)
         
         if not func:
             print(f'{command}: command not found')
