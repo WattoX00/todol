@@ -1,4 +1,3 @@
-
 from prompt_toolkit.completion import Completer, Completion
 
 class ShellCompleter(Completer):
