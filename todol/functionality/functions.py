@@ -29,6 +29,10 @@ class Functions():
         
         Functions.openJson()
 
+    def getAllTasks():
+        data = Functions.load_todos()
+        return data['tasks']
+
     def getTask(task_id):
         data = Functions.load_todos()
         return data['tasks'][task_id]
@@ -98,13 +102,6 @@ class Functions():
         console.print((table))
 
     # add task to json
-
-    """
-    Due: in 3h
-    Due: in 2d 4h
-    Due: tomorrow 9am
-    Due: next monday 14:00
-    """
 
     def addTaskJson(task):
         data: dict = Functions.load_todos()
