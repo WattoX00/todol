@@ -22,12 +22,14 @@ class Commands():
         Functions.removeTaskJson(args)
 
     def cmd_edit(args):
-        data: dict = Functions.load_todos()    
-        
+
         try:
-            title: str = data['tasks'][args]['name']
-            desc: str = data['tasks'][args]['desc']
-            time: str = data['tasks'][args]['time']
+            taskId = args[0]
+            task = Functions.getTask(taskId)
+
+            title: str = task['name']
+            desc: str = task['desc']
+            time: str = task['time']
 
             editTittle = Prompts.session.prompt('[todol ~] title (edit) : ', default=title)
             
@@ -35,11 +37,9 @@ class Commands():
             
             editTime = Prompts.session.prompt('\n[todol ~] time (edit) : ', default=time)   
 
-            data['tasks'][args] = {'name': editTittle, 'desc': editDesc, 'time': editTime, 'completed': False}
+            Functions.update_task(taskId, editTittle, editDesc, editTime)
 
-            Functions.save_todos(data)
-
-            print(f'\n[bold yellow]Task {args} Edited![/bold yellow]\n')
+            print(f'\n[bold yellow]Task {taskId} Edited![/bold yellow]\n')
 
         except ValueError:
             print('Invalid input. Please enter a valid number.')

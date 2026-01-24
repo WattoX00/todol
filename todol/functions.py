@@ -29,6 +29,20 @@ class Functions():
         
         Functions.openJson()
 
+    def getTask(task_id):
+        data = Functions.load_todos()
+        return data['tasks'][task_id]
+
+    def update_task(task_id: str, name: str, desc: str, time: str):
+            data = Functions.getTask(task_id)
+            data = {
+                "name": name,
+                "desc": desc,
+                "time": time,
+                "completed": data['tasks'][task_id]["completed"],
+            }
+            Functions.save_todos(data)
+
     # open Json (write on start)
 
     def openJson():

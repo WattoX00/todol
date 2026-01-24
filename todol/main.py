@@ -1,5 +1,6 @@
-from .functions import Functions, Commands
+from .functions import Functions
 from .prompts import Prompts
+from .commands import Commands
 
 def main():
     Functions.greetingAppStart()
