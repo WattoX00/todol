@@ -9,8 +9,9 @@
 
 ![Demo](assets/demo.png)
 
-## Navigation
-
+<details>
+<summary>📚 Contents</summary>
+ 
 - [Installation](#installation)
 - [Usage](#usage)
 - [Command Guide](#command-guide)
@@ -18,6 +19,9 @@
 - [Hotkeys](#hotkeys)
 - [Support](#support)
 - [License](#license)
+
+</details>
+
 
 ## Installation
 
@@ -86,7 +90,8 @@ todol-upgrade
  reload    reset     Reload the app     reload
  exit        0       Exit app           exit
 ```
-### Pro Tips: 
+> [!TIP]
+> ### Pro Tips: 
 - You can use Tab for autocomplete.
 - Navigate the terminal efficiently: arrow keys, backspace, and delete all work.
 - You can execute multiple commands at once:
