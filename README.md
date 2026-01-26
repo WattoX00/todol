@@ -1,19 +1,27 @@
 # Todol - Python TUI ToDo app
 
+[![Version](https://img.shields.io/badge/version-0.3.1-blue?style=for-the-badge)](https://github.com/WattoX00/todol/releases/tag/v0.3.1)
+![License](https://img.shields.io/github/license/wattox00/todol?style=for-the-badge)
+![Python](https://img.shields.io/badge/python-3.9%2B-blue?style=for-the-badge)
+![PyPI](https://img.shields.io/pypi/v/todol?style=for-the-badge)
+![Status](https://img.shields.io/badge/status-active-success?style=for-the-badge)
+![Build](https://img.shields.io/github/actions/workflow/status/wattox00/todol/publish.yml?style=for-the-badge)
+
+![Demo](assets/demo.png)
+
 ## Installation
 
 ```
 pip install todol
 ```
 
-`todol` is a terminal application. I recommend installing it with `pipx`.
+> [!IMPORTANT]
+> `todol` is a terminal application. I recommend installing it with `pipx`.
 
 More Info
 
 - Check out the project page on PyPi: [https://pypi.org/project/todol/](https://pypi.org/project/todol/)
 - and on Github: [https://github.com/WattoX00/todol](https://github.com/WattoX00/todol)
-
-![Demo](assets/demo.png)
 
 ## Running
 
@@ -45,7 +53,9 @@ todol-path
 
 Update todol with a single command
 
-This runs `pipx upgrade todol` under the hood.
+
+> [!CAUTION]
+> This runs `pipx upgrade todol` under the hood.
 
 ```
 todol-upgrade
@@ -105,6 +115,9 @@ rm 3 5 8       # removes tasks 3, 5, and 8
 
 ## Hotkeys are available!
 
+<details>
+<summary>Click to expand</summary>
+
 ### Cursor navigation
 
 | Key      | Action                           |
@@ -161,6 +174,8 @@ rm 3 5 8       # removes tasks 3, 5, and 8
 | Arrow keys | Move cursor up/down/left/right       |
 
 For the full official key binding documentation, check the prompt_toolkit docs: [prompt_toolkit GITHUB](https://github.com/prompt-toolkit/python-prompt-toolkit)
+
+</details>
 
 ## Support
 
