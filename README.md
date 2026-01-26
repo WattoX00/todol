@@ -1,4 +1,4 @@
-# Todol - Python TUI ToDo app
+# Todol - Simple cli ToDo app
 
 [![Version](https://img.shields.io/badge/version-0.3.1-blue?style=for-the-badge)](https://github.com/WattoX00/todol/releases/tag/v0.3.1)
 ![License](https://img.shields.io/github/license/wattox00/todol?style=for-the-badge)
@@ -8,6 +8,16 @@
 ![Build](https://img.shields.io/github/actions/workflow/status/wattox00/todol/publish.yml?style=for-the-badge)
 
 ![Demo](assets/demo.png)
+
+## Navigation
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [Command Guide](#command-guide)
+- [FAQ](#faq)
+- [Hotkeys](#hotkeys)
+- [Support](#support)
+- [License](#license)
 
 ## Installation
 
@@ -23,7 +33,7 @@ More Info
 - Check out the project page on PyPi: [https://pypi.org/project/todol/](https://pypi.org/project/todol/)
 - and on Github: [https://github.com/WattoX00/todol](https://github.com/WattoX00/todol)
 
-## Running
+## Usage
 
 ### Run from anywhere in your terminal
 
@@ -113,7 +123,7 @@ rm 3 5 8       # removes tasks 3, 5, and 8
 - **Windows**
 `%APPDATA%\todol\todoFiles\`
 
-## Hotkeys are available!
+## Hotkeys
 
 <details>
 <summary>Click to expand</summary>
