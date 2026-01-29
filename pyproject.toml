@@ -19,6 +19,8 @@ dependencies = [
 
 [project.scripts]
 todol = "todol.main:main"
+todol-view = "todol.todol_viewer:main"
+
 
 [tool.setuptools.packages.find]
 where = ["."]

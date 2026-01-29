@@ -26,7 +26,6 @@ class Prompts:
                 "Switch mode: Ctrl+D  |  "
                 "Save: Esc+Enter  |  "
                 "New line: Enter  |  "
-                "Move: ↑/↓  |  "
                 "Clear line: Ctrl+U"
             )
             app = get_app()

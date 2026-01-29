@@ -18,6 +18,9 @@ def parse_args():
 
     parser.add_argument("-c", "--commands", action="store_true", help="Show interactive commands")
     parser.add_argument("-a", "--add",  nargs="*", metavar=("DESCRIPTION", "TIME"), help="Add task")
+    parser.add_argument("-r", "--remove", nargs="*", metavar=("ID"), help="Remove task")
+    parser.add_argument("-d", "--done", nargs="*", metavar=("ID"), help="Mark task as DONE")
+    # parser.add_argument("-e", "--edit", nargs="*", metavar=("ID"), help="Edit task")
 
     parser.add_argument("-p", "--path", action="store_true", help="Show todol data directory")
     parser.add_argument("-l", "--list", action="store_true", help="Upgrade todol")
@@ -36,7 +39,15 @@ def main():
     if args.add is not None:
         Commands.cmd_add(args.add)
         return
-
+    
+    if args.remove:
+        Commands.cmd_remove(args.remove)
+        return
+    
+    if args.done:
+        Commands.cmd_done(args.done)
+        return
+    
     if args.path:
         TodolPath.path()
         return
@@ -81,3 +92,4 @@ def main():
             print('Missing argument')
         except (SystemExit, KeyboardInterrupt):
             break
+main()
