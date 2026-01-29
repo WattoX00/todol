@@ -6,12 +6,23 @@ from rich import print
 from prompt_toolkit.formatted_text import HTML
 
 class Commands():
-    def cmd_add(args):
+    def cmd_add(args=None):
+            args = args or []
 
-        description: str = Prompts.session.prompt(HTML('\n<ansiblue>todol ~ description : </ansiblue>\n'+ Prompts.line_prefix(1))).strip()
-        time: str = Prompts.session.prompt('\ntodol ~ time : ').strip()
+            try:
+                description = args[0]
+            except IndexError:
+                description = Prompts.session.prompt(
+                    HTML('\n<ansiblue>todol ~ description : </ansiblue>\n' + Prompts.line_prefix(1))
+                ).strip()
 
-        Functions.build_task(description, time)
+            try:
+                time = args[1]
+            except IndexError:
+                time = Prompts.session.prompt('\ntodol ~ time : ').strip()
+
+            Functions.build_task(description, time)
+
 
     def cmd_done(args):
         Functions.doneTaskJson(args)

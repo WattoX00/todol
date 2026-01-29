@@ -10,10 +10,14 @@ from .functionality.functions import Functions
 from .functionality.prompts import Prompts
 from .functionality.commands_list import COMMANDS
 
+from .functionality.commands import Commands
+
 def parse_args():
     parser = argparse.ArgumentParser(prog="todol")
 
     parser.add_argument("-c", "--commands", action="store_true", help="Show interactive commands")
+    parser.add_argument("-a", "--add",  nargs="*", metavar=("DESCRIPTION", "TIME"), help="Add task")
+
     parser.add_argument("-p", "--path", action="store_true", help="Show todol data directory")
     parser.add_argument("-l", "--list", action="store_true", help="Upgrade todol")
     parser.add_argument("-u", "--upgrade", action="store_true", help="Upgrade todol")
@@ -26,6 +30,10 @@ def main():
 
     if args.commands:
         TodolHelp.help()
+        return
+
+    if args.add is not None:
+        Commands.cmd_add(args.add)
         return
 
     if args.path:
