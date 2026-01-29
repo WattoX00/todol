@@ -19,12 +19,6 @@ dependencies = [
 
 [project.scripts]
 todol = "todol.main:main"
-todol-help = "todol.flags.todol_help:main"
-todol-path = "todol.flags.todol_path:main"
-todol-version = "todol.flags.todol_version:main"
-todol-upgrade = "todol.flags.todol_upgrade:main"
-todol-upgrades = "todol.flags.todol_upgrades:main"
-todol-list = "todol.flags.todol_show:main"
 
 [tool.setuptools.packages.find]
 where = ["."]

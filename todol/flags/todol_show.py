@@ -1,4 +1,5 @@
 from ..functionality.functions import Functions
 
-def main():
-    Functions.openJson()
+class TodolShow():
+    def show():
+        Functions.openJson()
