@@ -16,10 +16,10 @@ from .functionality.commands import Commands
 def parse_args():
     parser = argparse.ArgumentParser(prog="todol")
 
-    parser.add_argument("-c", "--commands", action="store_true", help="Show interactive commands")
     parser.add_argument("-a", "--add",  nargs="*", metavar=("DESCRIPTION", "TIME"), help="Add task")
     parser.add_argument("-r", "--remove", nargs="*", metavar=("ID"), help="Remove task")
     parser.add_argument("-d", "--done", nargs="*", metavar=("ID"), help="Mark task as DONE")
+    parser.add_argument("-c", "--clear", action="store_true", help="Remove tasks marked as DONE")
     # parser.add_argument("-e", "--edit", nargs="*", metavar=("ID"), help="Edit task")
 
     parser.add_argument("-p", "--path", action="store_true", help="Show todol data directory")
@@ -32,9 +32,7 @@ def parse_args():
 def main():
     args = parse_args()
 
-    if args.commands:
-        TodolHelp.help()
-        return
+    # commands (reused)
 
     if args.add is not None:
         Commands.cmd_add(args.add)
@@ -48,6 +46,12 @@ def main():
         Commands.cmd_done(args.done)
         return
     
+    if args.clear:
+        Commands.cmd_clear()
+        return
+
+    # Flag flags (reused)
+
     if args.path:
         TodolPath.path()
         return
