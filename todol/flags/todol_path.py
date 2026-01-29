@@ -7,6 +7,6 @@ class TodolPath():
         TODO_DIR = DATA_DIR / 'todoFiles'
 
         if TODO_DIR.exists():
-            print(f"\n{TODO_DIR}")
+            print(f"{TODO_DIR}")
         else:
             print("No data directory found. Run the app first: todol")
