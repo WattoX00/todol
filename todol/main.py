@@ -1,15 +1,16 @@
 import argparse
 
+# Flags
 from .flags.todol_help import TodolHelp
 from .flags.todol_path import TodolPath
 from .flags.todol_list import TodolList
 from .flags.todol_upgrade import TodolUpgrade
 from .flags.todol_version import TodolVersion
 
+# Functions for the main loop
 from .functionality.functions import Functions
 from .functionality.prompts import Prompts
 from .functionality.commands_list import COMMANDS
-
 from .functionality.commands import Commands
 
 def parse_args():
@@ -80,5 +81,3 @@ def main():
             print('Missing argument')
         except (SystemExit, KeyboardInterrupt):
             break
-
-main()
