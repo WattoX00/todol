@@ -7,12 +7,11 @@ from prompt_toolkit.formatted_text import HTML
 
 class Commands():
     def cmd_add(args):
-        title = " ".join(args)
 
         description: str = Prompts.session.prompt(HTML('\n<ansiblue>todol ~ description : </ansiblue>\n'+ Prompts.line_prefix(1))).strip()
         time: str = Prompts.session.prompt('\ntodol ~ time : ').strip()
 
-        Functions.build_task(title, description, time)
+        Functions.build_task(description, time)
 
     def cmd_done(args):
         Functions.doneTaskJson(args)
@@ -25,17 +24,15 @@ class Commands():
             taskId = args[0]
             task = Functions.getAllTasks()
 
-            title: str = task[taskId]['name']
             desc: str = task[taskId]['desc']
             time: str = task[taskId]['time']
 
-            editTittle = Prompts.session.prompt('todol ~ title (edit) : ', default=title)
             
             editDesc = Prompts.session.prompt(HTML('\n<ansiblue>todol ~ description (edit) : </ansiblue>\n'+Prompts.line_prefix(1)), default=desc)
             
             editTime = Prompts.session.prompt('\ntodol ~ time (edit) : ', default=time)   
 
-            Functions.update_task(taskId, editTittle, editDesc, editTime)
+            Functions.update_task(taskId, editDesc, editTime)
 
             print(f'\n[bold yellow]Task {taskId} Edited![/bold yellow]\n')
 

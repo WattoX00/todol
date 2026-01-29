@@ -34,11 +34,10 @@ class Functions():
         data = Functions.load_todos()
         return data['tasks']
 
-    def update_task(task_id: str, name: str, desc: str, time: str):
+    def update_task(task_id: str, desc: str, time: str):
 
             data = Functions.load_todos()
             data['tasks'][task_id] = {
-                "name": name,
                 "desc": desc,
                 "time": time,
                 "completed": False,
@@ -69,20 +68,15 @@ class Functions():
 
         table.add_column("ID", style="cyan", width=3, no_wrap=True)
         table.add_column("Task", style="bold white", min_width=20)
-        table.add_column("Description", style="dim", overflow="fold")
         table.add_column("Time", style="yellow", width=10)
         table.add_column("Status", justify="center", width=10)
 
         def render_row(task_id, task, completed=False):
             status = Text("DONE", style="bold green") if completed else Text("TODO", style="bold red")
-            name = Text(task["name"])
-
-            if completed:
-                name.stylize("strike dim")
+            
 
             return [
                 task_id,
-                name,
                 task.get("desc", ""),
                 task.get("time", "-"),
                 status
@@ -114,9 +108,8 @@ class Functions():
         print(f'\n[bold yellow]Task {new_id} Added![/bold yellow]\n')
 
 
-    def build_task(title: str, desc: str, time):
+    def build_task(desc: str, time):
         task = {
-            "name": title,
             "desc": desc,
             "time": time,
             "completed": False,
