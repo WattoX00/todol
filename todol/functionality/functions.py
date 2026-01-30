@@ -3,9 +3,6 @@ from .paths import todoJsonListPath
 import json
 
 from rich.console import Console
-from rich.panel import Panel
-from rich.progress import BarColumn, Progress, TextColumn
-from rich.text import Text
 from rich.table import Table
 from rich import print
 

@@ -10,14 +10,11 @@ class Commands():
             args = args or []
 
             try:
-                description = " ".join(args)
+                task = " ".join(args)
             except IndexError:
-                description = Prompts.session.prompt(
-                    HTML('\n<ansiblue>todol ~ description : </ansiblue>\n' + Prompts.line_prefix(1))
-                ).strip()
+                print("Add something bruhh")
 
-            Functions.build_task(description)
-
+            Functions.build_task(task)
 
     def cmd_done(args):
         Functions.doneTaskJson(args)
@@ -33,7 +30,7 @@ class Commands():
             desc: str = task[taskId]['desc']
 
             
-            editDesc = Prompts.session.prompt(HTML('\n<ansiblue>todol ~ description (edit) : </ansiblue>\n'+Prompts.line_prefix(1)), default=desc)
+            editDesc = Prompts.session.prompt(HTML('\n<ansiblue>todol ~ description (edit) : </ansiblue>\n'), default=desc)
 
             Functions.update_task(taskId, editDesc)
 
