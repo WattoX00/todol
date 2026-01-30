@@ -33,11 +33,11 @@ class Functions():
         data = Functions.load_todos()
         return data['tasks']
 
-    def update_task(task_id: str, desc: str):
+    def update_task(task_id: str, task: str):
 
             data = Functions.load_todos()
             data['tasks'][task_id] = {
-                "desc": desc,
+                "task": task,
                 "completed": False,
             }
             Functions.save_todos(data)
@@ -70,10 +70,10 @@ class Functions():
 
         def add_task(task_id, task, done=False):
             icon = "[green]✔[/green]" if done else "[bold yellow]☐[/bold yellow]"
-            desc = task.get("desc", "")
-            desc = f"[dim strike]{desc}[/dim strike]" if done else desc
+            task = task.get("task", "")
+            task = f"[dim strike]{task}[/dim strike]" if done else task
 
-            table.add_row(icon, desc, f"[dim]{task_id}[/dim]")
+            table.add_row(icon, task, f"[dim]{task_id}[/dim]")
             table.add_row("", "", "")
 
         for task_id, task in pending:
@@ -103,9 +103,9 @@ class Functions():
         print(f'\n[bold yellow]Task {new_id} Added![/bold yellow]\n')
 
 
-    def build_task(desc: str):
+    def build_task(task: str):
         task = {
-            "desc": desc,
+            "task": task,
             "completed": False,
         }
         
