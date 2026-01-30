@@ -21,27 +21,25 @@ def parse_args():
     )
 
     actions = parser.add_argument_group("Task actions")
-    actions.add_argument("-a", "--add", nargs="+", metavar=("TASK", "TIME"),
-                         help="Add a new task")
-    actions.add_argument("-r", "--remove", nargs="+", metavar="ID",
-                         help="Remove task by ID")
-    actions.add_argument("-d", "--done", nargs="+", metavar="ID",
-                         help="Mark task as done")
-    actions.add_argument("-c", "--clear", action="store_true",
-                         help="Remove completed tasks")
+    actions.add_argument("-a", "--add", nargs="+", metavar="TASK", help="Add a new task")
+    actions.add_argument("-rm", "--remove", nargs="+", metavar="ID", help="Remove task by ID")
+    actions.add_argument("-d", "--done", nargs="+", metavar="ID", help="Mark task as done")
+    actions.add_argument("-c", "--clear", action="store_true", help="Remove completed tasks")
 
     info = parser.add_argument_group("Information")
-    info.add_argument("-l", "--list", action="store_true", help="List all tasks")
+    info.add_argument("-ls", "--list", action="store_true", help="List all tasks")
     info.add_argument("-p", "--path", action="store_true", help="Show data directory")
     info.add_argument("-u", "--upgrade", action="store_true", help="Upgrade todol")
     info.add_argument("-v", "--version", action="store_true", help="Show version")
+
+    return parser.parse_args()
 
 def main():
     args = parse_args()
 
     # commands (reused)
 
-    if args.add is not None:
+    if args.add:
         Commands.cmd_add(args.add)
         return
     

@@ -6,7 +6,7 @@ from rich import print
 from prompt_toolkit.formatted_text import HTML
 
 class Commands():
-    def cmd_add(args=None):
+    def cmd_add(args):
             args = args or []
 
             try:
@@ -16,12 +16,7 @@ class Commands():
                     HTML('\n<ansiblue>todol ~ description : </ansiblue>\n' + Prompts.line_prefix(1))
                 ).strip()
 
-            try:
-                time = args[1]
-            except IndexError:
-                time = Prompts.session.prompt('\ntodol ~ time : ').strip()
-
-            Functions.build_task(description, time)
+            Functions.build_task(description)
 
 
     def cmd_done(args):
@@ -36,14 +31,11 @@ class Commands():
             task = Functions.getAllTasks()
 
             desc: str = task[taskId]['desc']
-            time: str = task[taskId]['time']
 
             
             editDesc = Prompts.session.prompt(HTML('\n<ansiblue>todol ~ description (edit) : </ansiblue>\n'+Prompts.line_prefix(1)), default=desc)
-            
-            editTime = Prompts.session.prompt('\ntodol ~ time (edit) : ', default=time)   
 
-            Functions.update_task(taskId, editDesc, editTime)
+            Functions.update_task(taskId, editDesc)
 
             print(f'\n[bold yellow]Task {taskId} Edited![/bold yellow]\n')
 
