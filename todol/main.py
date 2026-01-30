@@ -14,20 +14,35 @@ from .functionality.commands_list import COMMANDS
 from .functionality.commands import Commands
 
 def parse_args():
-    parser = argparse.ArgumentParser(prog="todol")
+    parser = argparse.ArgumentParser(
+        prog="todol",
+        description="A simple command-line todo list manager",
+        formatter_class=argparse.RawTextHelpFormatter
+    )
 
-    parser.add_argument("-a", "--add",  nargs="*", metavar=("DESCRIPTION", "TIME"), help="Add task")
-    parser.add_argument("-r", "--remove", nargs="*", metavar=("ID"), help="Remove task")
-    parser.add_argument("-d", "--done", nargs="*", metavar=("ID"), help="Mark task as DONE")
-    parser.add_argument("-c", "--clear", action="store_true", help="Remove tasks marked as DONE")
-    # parser.add_argument("-e", "--edit", nargs="*", metavar=("ID"), help="Edit task")
+    actions = parser.add_argument_group("Task actions")
+    actions.add_argument("-a", "--add", nargs="+", metavar=("TASK", "TIME"),
+                         help="Add a new task")
+    actions.add_argument("-r", "--remove", nargs="+", metavar="ID",
+                         help="Remove task by ID")
+    actions.add_argument("-d", "--done", nargs="+", metavar="ID",
+                         help="Mark task as done")
+    actions.add_argument("-c", "--clear", action="store_true",
+                         help="Remove completed tasks")
 
-    parser.add_argument("-p", "--path", action="store_true", help="Show todol data directory")
-    parser.add_argument("-l", "--list", action="store_true", help="Upgrade todol")
-    parser.add_argument("-u", "--upgrade", action="store_true", help="Upgrade todol")
-    parser.add_argument("-v", "--version", action="store_true", help="Show version")
+    info = parser.add_argument_group("Information")
+    info.add_argument("-l", "--list", action="store_true", help="List all tasks")
+    info.add_argument("-p", "--path", action="store_true", help="Show data directory")
+    info.add_argument("-u", "--upgrade", action="store_true", help="Upgrade todol")
+    info.add_argument("-v", "--version", action="store_true", help="Show version")
 
-    return parser.parse_args()
+    parser.epilog = (
+        "Examples:\n"
+        "  todol -add \"Finish project\"By 18:00\n"
+        "  todol -list\n"
+        "  todol -done 1\n"
+        "  todol -clear"
+    )
 
 def main():
     args = parse_args()
