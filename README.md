@@ -47,33 +47,64 @@ todol
 
 ### Additional flags
 
-View all flags (for more options):
+<details>
+<summary>Click to expand</summary>
 
+View all flags (for more options):
 ```
-todol-help
+todol --help
 ```
 
 Check the current version:
 
 ```
-todol-version
+todol --version
 ```
 
 See where todo files are saved:
 
 ```
-todol-path
+todol --path
 ```
 
 Update todol with a single command
-
 
 > [!CAUTION]
 > This runs `pipx upgrade todol` under the hood.
 
 ```
-todol-upgrade
+todol --upgrade
 ```
+
+</details>
+
+## Modify the todo list from the terminal
+
+<details>
+<summary>Click to expand</summary>
+Aliases work with the flags too
+
+Add new task:
+```
+todol --add [TASK_NAME] [TIME_ITERVAL]
+```
+
+Remove task by ID:
+```
+todol --remove [TASK_ID]
+```
+
+Mark task as DONE by ID:
+```
+todol --done [TASK_ID]
+```
+
+Remove all tasks marked as DONE:
+```
+todol --clear
+```
+
+</details>
 
 ## COMMAND GUIDE
 
@@ -92,6 +123,7 @@ todol-upgrade
 ```
 > [!TIP]
 > ### Pro Tips: 
+
 - You can use Tab for autocomplete.
 - Navigate the terminal efficiently: arrow keys, backspace, and delete all work.
 - You can execute multiple commands at once:
