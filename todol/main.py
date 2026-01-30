@@ -16,7 +16,7 @@ from .functionality.commands import Commands
 def parse_args():
     parser = argparse.ArgumentParser(
         prog="todol",
-        description="A simple command-line todo list manager",
+        description="Simple cli todo app",
         formatter_class=argparse.RawTextHelpFormatter
     )
 
@@ -35,14 +35,6 @@ def parse_args():
     info.add_argument("-p", "--path", action="store_true", help="Show data directory")
     info.add_argument("-u", "--upgrade", action="store_true", help="Upgrade todol")
     info.add_argument("-v", "--version", action="store_true", help="Show version")
-
-    parser.epilog = (
-        "Examples:\n"
-        "  todol -add \"Finish project\"By 18:00\n"
-        "  todol -list\n"
-        "  todol -done 1\n"
-        "  todol -clear"
-    )
 
 def main():
     args = parse_args()
