@@ -13,6 +13,8 @@ from .functionality.prompts import Prompts
 from .functionality.commands_list import COMMANDS
 from .functionality.commands import Commands
 
+from .todol_viewer import GuiApp
+
 def parse_args():
     parser = argparse.ArgumentParser(
         prog="todol",
@@ -21,12 +23,14 @@ def parse_args():
     )
 
     actions = parser.add_argument_group("Task actions")
+
     actions.add_argument("-a", "--add", nargs="+", metavar="TASK", help="Add a new task")
     actions.add_argument("-rm", "--remove", nargs="+", metavar="ID", help="Remove task by ID")
     actions.add_argument("-d", "--done", nargs="+", metavar="ID", help="Mark task as done")
     actions.add_argument("-c", "--clear", action="store_true", help="Remove completed tasks")
 
     info = parser.add_argument_group("Information")
+    info.add_argument("-w", "--viewer", action="store_true", help="Start gui")
     info.add_argument("-ls", "--list", action="store_true", help="List all tasks")
     info.add_argument("-p", "--path", action="store_true", help="Show data directory")
     info.add_argument("-u", "--upgrade", action="store_true", help="Upgrade todol")
@@ -36,6 +40,10 @@ def parse_args():
 
 def main():
     args = parse_args()
+
+    if args.viewer:
+        GuiApp.main()
+        return
 
     # commands (reused)
 
