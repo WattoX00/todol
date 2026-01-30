@@ -69,7 +69,8 @@ todol --path
 
 Update todol with a single command
 
-> [!CAUTION]
+> ⚠️ **Caution**
+>  
 > This runs `pipx upgrade todol` under the hood.
 
 ```
