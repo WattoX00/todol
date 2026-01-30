@@ -10,7 +10,7 @@ class Commands():
             args = args or []
 
             try:
-                description = args[0]
+                description = " ".join(args)
             except IndexError:
                 description = Prompts.session.prompt(
                     HTML('\n<ansiblue>todol ~ description : </ansiblue>\n' + Prompts.line_prefix(1))

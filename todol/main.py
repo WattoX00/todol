@@ -52,7 +52,7 @@ def main():
         return
     
     if args.clear:
-        Commands.cmd_clear()
+        Functions.clearTaskJson()
         return
 
     # Flag flags (reused)

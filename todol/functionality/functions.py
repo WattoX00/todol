@@ -3,8 +3,10 @@ from .paths import todoJsonListPath
 import json
 
 from rich.console import Console
-from rich.table import Table
+from rich.panel import Panel
+from rich.progress import BarColumn, Progress, TextColumn
 from rich.text import Text
+from rich.table import Table
 from rich import print
 
 from prompt_toolkit.shortcuts import clear
@@ -53,41 +55,40 @@ class Functions():
         completed = []
 
         for task_id, task in tasks.items():
-            if task.get("completed"):
-                completed.append((task_id, task))
-            else:
-                pending.append((task_id, task))
+            (completed if task.get("completed") else pending).append((task_id, task))
 
         table = Table(
-            show_header=True,
-            header_style="bold magenta",
-            title="Todo List",
-            caption=f"Pending: {len(pending)} | Completed: {len(completed)}"
+            title="Todo",
+            show_header=False,
+            box=None,
+            pad_edge=False,
+            show_lines=False,
+            padding=(0, 1),
+            caption=f"[dim]{len(pending)} pending • {len(completed)} completed[/dim]",
         )
 
-        table.add_column("ID", style="cyan", width=3, no_wrap=True)
-        table.add_column("Task", style="bold white", min_width=20)
-        table.add_column("Status", justify="center", width=10)
+        table.add_column(justify="right", width=5)
+        table.add_column("Task", style="white")
+        table.add_column(justify="right", style="dim", width=4)
 
-        def render_row(task_id, task, completed=False):
-            status = Text("DONE", style="bold green") if completed else Text("TODO", style="bold red")
-            
+        def add_task(task_id, task, done=False):
+            icon = "[green]✔[/green]" if done else "[bold yellow]☐[/bold yellow]"
+            desc = task.get("desc", "")
+            desc = f"[dim strike]{desc}[/dim strike]" if done else desc
 
-            return [
-                task_id,
-                task.get("desc", ""),
-                status
-            ]
+            table.add_row(icon, desc, f"[dim]{task_id}[/dim]")
+            table.add_row("", "", "")
 
         for task_id, task in pending:
-            table.add_row(*render_row(task_id, task))
+            add_task(task_id, task)
 
         if completed:
             table.add_section()
             for task_id, task in completed:
-                table.add_row(*render_row(task_id, task, completed=True))
+                add_task(task_id, task, done=True)
 
-        console.print((table))
+        console.print(table)
+
 
     # add task to json
 
