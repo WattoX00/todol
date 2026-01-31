@@ -12,14 +12,14 @@ from .functionality.functions import Functions
 from .functionality.prompts import Prompts
 from .functionality.commands_list import COMMANDS
 from .functionality.commands import Commands
-from .functionality.paths import reset_todolist
+from .functionality.paths import reset_todolist, backup_todolist
 
 from .todol_viewer import GuiApp
 
 def parse_args():
     parser = argparse.ArgumentParser(
         prog="todol",
-        description="Simple cli todo app",
+        description="Simple cli todo app by me for u <3",
         formatter_class=argparse.RawTextHelpFormatter
     )
 
@@ -30,6 +30,7 @@ def parse_args():
     actions.add_argument("-d", "--done", nargs="+", metavar="ID", help="Mark task as done")
     actions.add_argument("-c", "--clear", action="store_true", help="Remove completed tasks")
     actions.add_argument("-rst", "--reset", action="store_true", help="Reset Todo List!!!")
+    actions.add_argument("-bk", "--backup", action="store_true", help="Create a backup")
 
     info = parser.add_argument_group("Information")
     info.add_argument("-w", "--viewer", action="store_true", help="Open GUI window")
@@ -49,6 +50,10 @@ def main():
     
     if args.reset:
         reset_todolist()
+        return
+    
+    if args.backup:
+        backup_todolist()
         return
 
     # commands (reused)
