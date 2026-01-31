@@ -19,15 +19,18 @@ class Functions():
         clear()
 
         print(r"""
-████████  ██████   █████     ██████   ██      
-   ██    ██    ██  ██   ██  ██    ██  ██      
-   ██    ██    ██  ██   ██  ██    ██  ██      
-   ██    ██    ██  ██   ██  ██    ██  ██      
-   ██     ██████   █████     ██████   ███████
-        """)
-
-        print('[bold yellow]Type h or help to see the available commands and what they do![/bold yellow]\n')
-        
+   ▄▄▄█████▓ ▒█████   ▓█████▄  ▒█████   ██▓    
+   ▓  ██▒ ▓▒▒██▒  ██▒ ▒██▀ ██▌▒██▒  ██▒▓██▒    
+   ▒ ▓██░ ▒░▒██░  ██▒ ░██   █▌▒██░  ██▒▒██░    
+   ░ ▓██▓ ░ ▒██   ██░ ░▓█▄   ▌▒██   ██░▒██░    
+     ▒██▒ ░ ░ ████▓▒░ ░▒████▓ ░ ████▓▒░░██████▒
+     ▒ ░░   ░ ▒░▒░▒░   ▒▒▓  ▒ ░ ▒░▒░▒░ ░ ▒░▓  ░
+       ░      ░ ▒ ▒░   ░ ▒  ▒   ░ ▒ ▒░ ░ ░ ▒  ░
+     ░      ░ ░ ░ ▒    ░ ░  ░ ░ ░ ░ ▒    ░ ░   
+                ░ ░      ░        ░ ░      ░  ░
+"""
+)
+        print("[dim]        Type [bold]h[/bold] or help to see available commands[/dim]\n")
         Functions.openJson()
 
     def getAllTasks() -> dict:
