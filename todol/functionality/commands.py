@@ -27,12 +27,11 @@ class Commands():
             taskId = args[0]
             task = Functions.getAllTasks()
 
-            desc: str = task[taskId]['desc']
+            defTask: str = task[taskId]['task']
 
-            
-            editDesc = Prompts.session.prompt(HTML('\n<ansiblue>todol ~ description (edit) : </ansiblue>\n'), default=desc)
+            editTask = Prompts.session.prompt(HTML('\n<ansiblue>todol ~ task (edit) : </ansiblue>'), default=defTask)
 
-            Functions.update_task(taskId, editDesc)
+            Functions.update_task(taskId, editTask)
 
             print(f'\n[bold yellow]Task {taskId} Edited![/bold yellow]\n')
 

@@ -2,11 +2,12 @@ from .paths import todoJsonListPath
 
 import json
 
+from prompt_toolkit.shortcuts import clear
+
 from rich.console import Console
 from rich.table import Table
 from rich import print
 
-from prompt_toolkit.shortcuts import clear
 
 class Functions():
 
@@ -85,7 +86,6 @@ class Functions():
                 add_task(task_id, task, done=True)
 
         console.print(table)
-
 
     # add task to json
 
@@ -208,7 +208,7 @@ class Functions():
 
         table.add_row("add", "a", "Add new task", "add [task]")
         table.add_row("done", "d", "Mark task done", "done [id]")
-        table.add_row("list", "l", "Show todo list", "list")
+        table.add_row("list", "ls", "Show todo list", "list")
         table.add_row("remove", "rm", "Remove task", "rm [id]")
         table.add_row("edit", "e", "Edit task", "edit [id]")
         table.add_row("clear", "c", "Clear done tasks", "clear")
