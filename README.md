@@ -67,11 +67,11 @@ See where todo files are saved:
 todol --path
 ```
 
-Update todol with a single command
+Update todol with a single command:
 
-> ⚠️ **Caution**
->  
-> This runs `pipx upgrade todol` under the hood.
+⚠️ **Caution**
+
+This runs `pipx upgrade todol` under the hood.
 
 ```
 todol --upgrade
@@ -85,22 +85,17 @@ todol --upgrade
 <summary>Click to expand</summary>
 Aliases work with the flags too
 
-Add new task:
+**Add** new task:
 ```
-todol --add [TASK_NAME] [TIME_ITERVAL]
-```
-
-Remove task by ID:
-```
-todol --remove [TASK_ID]
+todol --add [TASK_NAME] [@TAGS (optional)]
 ```
 
-Mark task as DONE by ID:
+Mark task as **DONE** by ID:
 ```
 todol --done [TASK_ID]
 ```
 
-Remove all tasks marked as DONE:
+**Remove** all tasks marked as **DONE**:
 ```
 todol --clear
 ```
@@ -110,23 +105,23 @@ todol --clear
 ## COMMAND GUIDE
 
 ```
- Command     Alias      Action          Usage 
-
- add         a       Add new task       add [task]
- done        d       Mark task done     done [id]
- list        l       Show todo list     list
- remove      rm      Remove task        rm [id]
- edit        e       Edit task          edit [id]
- clear       c       Clear done tasks   clear
- help        h       Show help          help
- reload    reset     Reload the app     reload
- exit        0       Exit app           exit
+Commands:
+  add, a        Add new task
+  done, d       Mark task done
+  list, ls      Show todo list
+  edit, e       Edit task
+  clear, c      Clear done tasks
+  help, h       Show help
+  reload, rld   Reload the app
+  exit, q       Exit app
 ```
+
 > [!TIP]
 > ### Pro Tips: 
 
 - You can use Tab for autocomplete.
-- Navigate the terminal efficiently: arrow keys, backspace, and delete all work.
+- Navigate the terminal efficiently: arrow keys, backspace, delete ...
+- Use custom `@tags` to organize tasks
 - You can execute multiple commands at once:
     - all - apply the command to all items
 
@@ -138,15 +133,15 @@ todol --clear
 
 ```
 done all       # marks all tasks as done
-remove 4-7     # removes tasks with IDs 4 through 7
-rm 3 5 8       # removes tasks 3, 5, and 8
+done 4-7       # marks tasks with IDs 4 through 7 as done
+done 3 5 8     # marks tasks 3, 5, and 8 as done
 ```
 
 ## ❓ FAQ
 
 ### Where are the saved todo files stored?
 
-#### You can simply check it by running `todol-path`
+#### You can simply check it by running `todol --path`
 
 `todol` stores its data using `platformdirs.user_data_dir`, which means files are written to the standard user data directory for each operating system.
 

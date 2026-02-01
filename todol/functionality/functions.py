@@ -166,19 +166,21 @@ class Functions():
     def helpText() -> None:
         print(
             "[bold]Commands:[/bold]\n"
-            "[cyan]  add[/cyan], a        Add new task        [dim]add [task][/dim]\n"
-            "[cyan]  done[/cyan], d       Mark task done      [dim]done [id][/dim]\n"
-            "[cyan]  list[/cyan], ls      Show todo list      [dim]list[/dim]\n"
-            "[cyan]  edit[/cyan], e       Edit task           [dim]edit [id][/dim]\n"
-            "[cyan]  clear[/cyan], c      Clear done tasks    [dim]clear[/dim]\n"
-            "[cyan]  help[/cyan], h       Show help           [dim]help[/dim]\n"
-            "[cyan]  reload[/cyan], rld   Reload the app      [dim]reload[/dim]\n"
-            "[cyan]  exit[/cyan], q       Exit app            [dim]exit[/dim]\n"
+            "[cyan]  add[/cyan], a        Add new task\n"
+            "[cyan]  done[/cyan], d       Mark task done\n"
+            "[cyan]  list[/cyan], ls      Show todo list\n"
+            "[cyan]  edit[/cyan], e       Edit task\n"
+            "[cyan]  clear[/cyan], c      Clear done tasks\n"
+            "[cyan]  help[/cyan], h       Show help\n"
+            "[cyan]  reload[/cyan], rld   Reload the app\n"
+            "[cyan]  exit[/cyan], q       Exit app\n"
             "\n"
             "[bold]Batch operations:[/bold]\n"
             "[green]  done all[/green]    mark all tasks done\n"
-            "[green]  done 2-4[/green]    mark tasks 2–4 done\n"
-            "[green]  done 1 5 7[/green]  mark tasks 1, 5, 7 done"
+            "[green]  done 2-4[/green]    mark tasks 2 3 4 done\n"
+            "[green]  done 1 5 7[/green]  mark tasks 1, 5, 7 done\n"
+            "[bold]Tags:[/bold]\n"
+            "[green]  @tag[/green]    write the name of you tag after '@'\n"
         )
 
     # load json file

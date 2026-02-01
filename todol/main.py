@@ -23,19 +23,20 @@ def parse_args():
     )
 
     actions = parser.add_argument_group("Task actions")
-
-    actions.add_argument("-a", "--add", nargs="+", metavar="TASK", help="Add a new task")
+    actions.add_argument("-a", "--add", nargs="+", metavar="TASK", help="Add new task")
     actions.add_argument("-d", "--done", nargs="+", metavar="ID", help="Mark task as done")
     actions.add_argument("-c", "--clear", action="store_true", help="Remove completed tasks")
-    actions.add_argument("-rst", "--reset", action="store_true", help="Reset Todo List!!!")
-    actions.add_argument("-bk", "--backup", action="store_true", help="Create a backup")
 
     info = parser.add_argument_group("Information")
     info.add_argument("-w", "--viewer", action="store_true", help="Open GUI window")
     info.add_argument("-ls", "--list", action="store_true", help="List tasks to the terminal")
-    info.add_argument("-p", "--path", action="store_true", help="Show data directory")
+    info.add_argument("-p", "--path", action="store_true", help="Show todo files in local directory")
     info.add_argument("-u", "--upgrade", action="store_true", help="Upgrade todol")
     info.add_argument("-v", "--version", action="store_true", help="Show version")
+
+    file_action = parser.add_argument_group("File actions")
+    file_action.add_argument("-rst", "--reset", action="store_true", help="Reset Todo list")
+    file_action.add_argument("-bk", "--backup", action="store_true", help="Create a backup")
 
     return parser.parse_args()
 
