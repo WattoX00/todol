@@ -19,9 +19,6 @@ class Commands():
     def cmd_done(args):
         Functions.doneTaskJson(args)
 
-    def cmd_remove(args):
-        Functions.removeTaskJson(args)
-
     def cmd_edit(args):
         try:
             taskId = args[0]

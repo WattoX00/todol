@@ -115,42 +115,6 @@ class Functions():
 
         Functions.addTaskJson(task_data)
 
-
-    # remove task from json
-
-    def removeTaskJson(index: list) -> str:
-
-        data: dict = Functions.load_todos()
-
-        try:
-            if index[0] == "all":
-                data['tasks'].clear()
-
-                print(f'\n[bold yellow]All Tasks been removed![/bold yellow]\n')
-            else:
-                for arg in index:
-
-                    if "-" in arg:
-                        min_i, max_i = arg.split("-")
-
-                        for task in range(int(min_i), int(max_i) + 1):
-                            task = str(task)
-                            if task in data['tasks']:
-                                del data['tasks'][task]
-
-                        print(f'\n[bold yellow]Tasks {index[0]} been removed![/bold yellow]\n')
-
-                    else:
-                        del data['tasks'][str(arg)]
-
-                        print(f'\n[bold yellow]Task(s) {index} been removed![/bold yellow]\n')
-            Functions.save_todos(data)
-
-        except ValueError:
-            print('Invalid input. Please enter a valid number.')
-        except KeyError:
-            print('Invalid input. Please enter a valid number.')
-
     # mark task as done in json
 
     def doneTaskJson(doneIndex: list) -> str:
@@ -214,18 +178,17 @@ class Functions():
         table.add_row("add", "a", "Add new task", "add [task]")
         table.add_row("done", "d", "Mark task done", "done [id]")
         table.add_row("list", "ls", "Show todo list", "list")
-        table.add_row("remove", "rm", "Remove task", "rm [id]")
         table.add_row("edit", "e", "Edit task", "edit [id]")
         table.add_row("clear", "c", "Clear done tasks", "clear")
         table.add_row("help", "h", "Show help", "help")
-        table.add_row("reload", "reset", "Reload the app", "reload")
+        table.add_row("reload", "rld" "Reload the app", "reload")
         table.add_row("exit", "0", "Exit app", "exit")
 
         console.print(table)
         print(
             "\nBatch Operations:\n"
             "  done all       # mark all tasks done\n"
-            "  rm 2-4         # remove tasks 2, 3, 4\n"
+            "  done 2-4         # remove tasks 2, 3, 4\n"
             "  done 1 5 7     # mark tasks 1, 5, and 7 done"
         )
 
