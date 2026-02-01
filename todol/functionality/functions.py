@@ -1,7 +1,7 @@
 from .paths import todoJsonListPath
 
 import json
-
+import re
 from prompt_toolkit.shortcuts import clear
 
 from rich.console import Console
@@ -50,13 +50,23 @@ class Functions():
     # open Json (write on start)
 
     def openJson() -> None:
+        TAG_RE = re.compile(r'@(\w+)')
         console = Console()
         tasks = Functions.getAllTasks()
 
         grouped = defaultdict(lambda: {"pending": [], "completed": []})
 
         for task_id, task in tasks.items():
-            tags = task.get("tags") or ["untagged"]
+            raw_text = task.get("task", "")
+
+            # Extract tags from task text
+            tags = TAG_RE.findall(raw_text)
+            tags = tags if tags else ["untagged"]
+
+            # Clean task text (remove tags)
+            clean_text = TAG_RE.sub("", raw_text).strip()
+            task["task"] = clean_text
+
             status = "completed" if task.get("completed") else "pending"
 
             for tag in tags:
@@ -66,7 +76,6 @@ class Functions():
             pending = buckets["pending"]
             completed = buckets["completed"]
 
-            # Tag header
             console.print(
                 f"\n[bold cyan]@{tag}[/bold cyan] "
                 f"[dim]({len(pending)} pending • {len(completed)} done)[/dim]"
@@ -78,16 +87,13 @@ class Functions():
                 if done:
                     text = f"[dim strike]{text}[/dim strike]"
 
-                console.print(
-                    f"  {icon} {text} [dim]{task_id}[/dim]"
-                )
+                console.print(f"  {icon} {text} [dim]{task_id}[/dim]")
 
             for task_id, task in pending:
                 render_task(task_id, task)
 
             for task_id, task in completed:
                 render_task(task_id, task, done=True)
-
     # add task to json
 
     def addTaskJson(task: dict):
@@ -104,11 +110,10 @@ class Functions():
         print(f'\n[bold yellow]Task {new_id} Added![/bold yellow]\n')
 
 
-    def build_task(task: str, tags: list[str]):
+    def build_task(task: str):
         task_data = {
             "task": task,
             "completed": False,
-            "tags": tags
         }
 
         Functions.addTaskJson(task_data)

@@ -7,27 +7,14 @@ from prompt_toolkit.formatted_text import HTML
 
 class Commands():
     def cmd_add(args):
-        if not args:
-            print("Add something bruhh")
-            return
+            args = args or []
 
-        words = []
-        tags = []
+            try:
+                task = " ".join(args)
+            except IndexError:
+                print("Add something bruhh")
 
-        for arg in args:
-            if arg.startswith("@") and len(arg) > 1:
-                tags.append(arg[1:])  # remove '@'
-            else:
-                words.append(arg)
-
-        task_text = " ".join(words)
-
-        if not task_text:
-            print("Task text missing")
-            return
-
-        Functions.build_task(task_text, tags)
-
+            Functions.build_task(task)
 
     def cmd_done(args):
         Functions.doneTaskJson(args)
