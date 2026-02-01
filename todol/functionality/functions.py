@@ -72,6 +72,7 @@ class Functions():
                 })
 
         for tag, items in grouped.items():
+            items.sort(key=lambda t: t["completed"])
             console.print()
             console.print(
                 Text(f"@{tag}", style="bold magenta")
