@@ -72,23 +72,26 @@ class Functions():
 
         for tag, items in grouped.items():
             items.sort(key=lambda t: t["completed"])
+            completed_count = sum(1 for t in items if t["completed"])
+            incomplete_count = len(items) - completed_count
+
             console.print()
-            console.print(
-                Text(f"@{tag}", style="bold magenta")
-            )
+            console.print(Text(f"@{tag}", style="bold magenta"))
 
             for task in items:
                 if task["completed"]:
                     line = Text("  • ", style="dim")
                     line.append(f"{task['id']} ", style="dim cyan")
                     line.append("✔ ", style="green")
-                    line.append(task["text"], style="dim strike")
+                    line.append(task["text"], style="dim")
                 else:
                     line = Text("  • ", style="bold yellow")
                     line.append(f"{task['id']} ", style="bold cyan")
                     line.append(task["text"], style="white")
 
                 console.print(line)
+
+            console.print(Text(f"Completed: {completed_count} | Pending: {incomplete_count}", style="dim cyan"))
 
     # add task to json
 

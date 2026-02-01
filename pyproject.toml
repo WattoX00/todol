@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "todol"
-version = "0.3.4"
+version = "0.3.5"
 description = "A python TUI todo app"
 readme = "README.md"
 license-files = ["LICENSE"]
@@ -19,8 +19,6 @@ dependencies = [
 
 [project.scripts]
 todol = "todol.main:main"
-todol-view = "todol.todol_viewer:main"
-
 
 [tool.setuptools.packages.find]
 where = ["."]
