@@ -8,6 +8,7 @@ from rich.console import Console
 from rich.table import Table
 from rich import print
 
+from collections import defaultdict
 
 class Functions():
 
@@ -48,47 +49,44 @@ class Functions():
 
     # open Json (write on start)
 
-    def openJson() -> list:
+    def openJson() -> None:
         console = Console()
         tasks = Functions.getAllTasks()
 
-        pending = []
-        completed = []
+        grouped = defaultdict(lambda: {"pending": [], "completed": []})
 
         for task_id, task in tasks.items():
-            (completed if task.get("completed") else pending).append((task_id, task))
+            tags = task.get("tags") or ["untagged"]
+            status = "completed" if task.get("completed") else "pending"
 
-        table = Table(
-            title="Todo",
-            show_header=False,
-            box=None,
-            pad_edge=False,
-            show_lines=False,
-            padding=(0, 1),
-            caption=f"[dim]{len(pending)} pending • {len(completed)} completed[/dim]",
-        )
+            for tag in tags:
+                grouped[tag][status].append((task_id, task))
 
-        table.add_column(justify="right", width=5)
-        table.add_column("Task", style="white")
-        table.add_column(justify="right", style="dim", width=4)
+        for tag, buckets in grouped.items():
+            pending = buckets["pending"]
+            completed = buckets["completed"]
 
-        def add_task(task_id, task, done=False):
-            icon = "[green]✔[/green]" if done else "[bold yellow]☐[/bold yellow]"
-            task = task.get("task", "")
-            task = f"[dim strike]{task}[/dim strike]" if done else task
+            # Tag header
+            console.print(
+                f"\n[bold cyan]@{tag}[/bold cyan] "
+                f"[dim]({len(pending)} pending • {len(completed)} done)[/dim]"
+            )
 
-            table.add_row(icon, task, f"[dim]{task_id}[/dim]")
-            table.add_row("", "", "")
+            def render_task(task_id, task, done=False):
+                icon = "[green]✔[/green]" if done else "[yellow]☐[/yellow]"
+                text = task.get("task", "")
+                if done:
+                    text = f"[dim strike]{text}[/dim strike]"
 
-        for task_id, task in pending:
-            add_task(task_id, task)
+                console.print(
+                    f"  {icon} {text} [dim]{task_id}[/dim]"
+                )
 
-        if completed:
-            table.add_section()
+            for task_id, task in pending:
+                render_task(task_id, task)
+
             for task_id, task in completed:
-                add_task(task_id, task, done=True)
-
-        console.print(table)
+                render_task(task_id, task, done=True)
 
     # add task to json
 
@@ -106,13 +104,15 @@ class Functions():
         print(f'\n[bold yellow]Task {new_id} Added![/bold yellow]\n')
 
 
-    def build_task(task: str):
-        task = {
+    def build_task(task: str, tags: list[str]):
+        task_data = {
             "task": task,
             "completed": False,
+            "tags": tags
         }
-        
-        Functions.addTaskJson(task)
+
+        Functions.addTaskJson(task_data)
+
 
     # remove task from json
 
