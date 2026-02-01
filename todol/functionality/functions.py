@@ -3,6 +3,7 @@ from .paths import todoJsonListPath
 import json
 import re
 from prompt_toolkit.shortcuts import clear
+from rich.text import Text
 
 from rich.console import Console
 from rich.table import Table
@@ -54,46 +55,41 @@ class Functions():
         console = Console()
         tasks = Functions.getAllTasks()
 
-        grouped = defaultdict(lambda: {"pending": [], "completed": []})
+        grouped = defaultdict(list)
 
         for task_id, task in tasks.items():
             raw_text = task.get("task", "")
+            completed = task.get("completed", False)
 
-            # Extract tags from task text
-            tags = TAG_RE.findall(raw_text)
-            tags = tags if tags else ["untagged"]
-
-            # Clean task text (remove tags)
+            tags = TAG_RE.findall(raw_text) or ["untagged"]
             clean_text = TAG_RE.sub("", raw_text).strip()
-            task["task"] = clean_text
-
-            status = "completed" if task.get("completed") else "pending"
 
             for tag in tags:
-                grouped[tag][status].append((task_id, task))
+                grouped[tag].append({
+                    "id": task_id,
+                    "text": clean_text,
+                    "completed": completed,
+                })
 
-        for tag, buckets in grouped.items():
-            pending = buckets["pending"]
-            completed = buckets["completed"]
-
+        for tag, items in grouped.items():
+            console.print()
             console.print(
-                f"\n[bold cyan]@{tag}[/bold cyan] "
-                f"[dim]({len(pending)} pending • {len(completed)} done)[/dim]"
+                Text(f"@{tag}", style="bold magenta")
             )
 
-            def render_task(task_id, task, done=False):
-                icon = "[green]✔[/green]" if done else "[yellow]☐[/yellow]"
-                text = task.get("task", "")
-                if done:
-                    text = f"[dim strike]{text}[/dim strike]"
+            for task in items:
+                if task["completed"]:
+                    line = Text("  • ", style="dim")
+                    line.append(f"{task['id']} ", style="dim cyan")
+                    line.append("✔ ", style="green")
+                    line.append(task["text"], style="dim strike")
+                else:
+                    line = Text("  • ", style="bold yellow")
+                    line.append(f"{task['id']} ", style="bold cyan")
+                    line.append(task["text"], style="white")
 
-                console.print(f"  {icon} {text} [dim]{task_id}[/dim]")
+                console.print(line)
 
-            for task_id, task in pending:
-                render_task(task_id, task)
-
-            for task_id, task in completed:
-                render_task(task_id, task, done=True)
     # add task to json
 
     def addTaskJson(task: dict):

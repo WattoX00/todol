@@ -1,7 +1,6 @@
 import argparse
 
 # Flags
-from .flags.todol_help import TodolHelp
 from .flags.todol_path import TodolPath
 from .flags.todol_list import TodolList
 from .flags.todol_upgrade import TodolUpgrade
