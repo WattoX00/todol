@@ -13,8 +13,6 @@ from .functionality.commands_list import COMMANDS
 from .functionality.commands import Commands
 from .functionality.paths import reset_todolist, backup_todolist
 
-from .todol_viewer import GuiApp
-
 def parse_args():
     parser = argparse.ArgumentParser(
         prog="todol",
@@ -28,7 +26,6 @@ def parse_args():
     actions.add_argument("-c", "--clear", action="store_true", help="Remove completed tasks")
 
     info = parser.add_argument_group("Information")
-    info.add_argument("-w", "--viewer", action="store_true", help="Open GUI window")
     info.add_argument("-ls", "--list", action="store_true", help="List tasks to the terminal")
     info.add_argument("-p", "--path", action="store_true", help="Show todo files in local directory")
     info.add_argument("-u", "--upgrade", action="store_true", help="Upgrade todol")
@@ -43,10 +40,8 @@ def parse_args():
 def main():
     args = parse_args()
 
-    if args.viewer:
-        GuiApp.main()
-        return
-    
+    # file actions
+
     if args.reset:
         reset_todolist()
         return
@@ -55,7 +50,7 @@ def main():
         backup_todolist()
         return
 
-    # commands (reused)
+    # commands
 
     if args.add:
         Commands.cmd_add(args.add)
@@ -69,7 +64,7 @@ def main():
         Functions.clearTaskJson()
         return
 
-    # Flag flags (reused)
+    # Flag flags
 
     if args.path:
         TodolPath.path()
@@ -115,4 +110,3 @@ def main():
             print('Missing argument')
         except (SystemExit, KeyboardInterrupt):
             break
-main()
