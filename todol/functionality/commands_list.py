@@ -11,5 +11,5 @@ COMMANDS = {
     **aliases(Commands.cmd_list, "list", "ls",),
     **aliases(Commands.cmd_clear, "clear", "c"),
     **aliases(Commands.cmd_reload, "reload", "rld"),
-    **aliases(Commands.cmd_exit, "exit", "0", "q"),
+    **aliases(Commands.cmd_exit, "exit", "q"),
 }

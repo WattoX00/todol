@@ -25,7 +25,6 @@ def parse_args():
     actions = parser.add_argument_group("Task actions")
 
     actions.add_argument("-a", "--add", nargs="+", metavar="TASK", help="Add a new task")
-    actions.add_argument("-rm", "--remove", nargs="+", metavar="ID", help="Remove task by ID")
     actions.add_argument("-d", "--done", nargs="+", metavar="ID", help="Mark task as done")
     actions.add_argument("-c", "--clear", action="store_true", help="Remove completed tasks")
     actions.add_argument("-rst", "--reset", action="store_true", help="Reset Todo List!!!")
@@ -60,11 +59,7 @@ def main():
     if args.add:
         Commands.cmd_add(args.add)
         return
-    
-    if args.remove:
-        Commands.cmd_remove(args.remove)
-        return
-    
+      
     if args.done:
         Commands.cmd_done(args.done)
         return

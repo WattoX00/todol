@@ -6,7 +6,6 @@ from prompt_toolkit.shortcuts import clear
 from rich.text import Text
 
 from rich.console import Console
-from rich.table import Table
 from rich import print
 
 from collections import defaultdict
@@ -164,32 +163,22 @@ class Functions():
         print('\n[bold yellow]TODO list CLEARED![/bold yellow]\n')
 
     # print help commands
-
-    def helpText() -> str:
-        console = Console()
-
-        table = Table(show_header=True, header_style="bold")
-
-        table.add_column("Command", style="cyan", width=10)
-        table.add_column("Alias", style="green", width=6)
-        table.add_column("Action", style="bold")
-        table.add_column("Usage", style="dim")
-
-        table.add_row("add", "a", "Add new task", "add [task]")
-        table.add_row("done", "d", "Mark task done", "done [id]")
-        table.add_row("list", "ls", "Show todo list", "list")
-        table.add_row("edit", "e", "Edit task", "edit [id]")
-        table.add_row("clear", "c", "Clear done tasks", "clear")
-        table.add_row("help", "h", "Show help", "help")
-        table.add_row("reload", "rld" "Reload the app", "reload")
-        table.add_row("exit", "0", "Exit app", "exit")
-
-        console.print(table)
+    def helpText() -> None:
         print(
-            "\nBatch Operations:\n"
-            "  done all       # mark all tasks done\n"
-            "  done 2-4         # remove tasks 2, 3, 4\n"
-            "  done 1 5 7     # mark tasks 1, 5, and 7 done"
+            "[bold]Commands:[/bold]\n"
+            "[cyan]  add[/cyan], a        Add new task        [dim]add [task][/dim]\n"
+            "[cyan]  done[/cyan], d       Mark task done      [dim]done [id][/dim]\n"
+            "[cyan]  list[/cyan], ls      Show todo list      [dim]list[/dim]\n"
+            "[cyan]  edit[/cyan], e       Edit task           [dim]edit [id][/dim]\n"
+            "[cyan]  clear[/cyan], c      Clear done tasks    [dim]clear[/dim]\n"
+            "[cyan]  help[/cyan], h       Show help           [dim]help[/dim]\n"
+            "[cyan]  reload[/cyan], rld   Reload the app      [dim]reload[/dim]\n"
+            "[cyan]  exit[/cyan], q       Exit app            [dim]exit[/dim]\n"
+            "\n"
+            "[bold]Batch operations:[/bold]\n"
+            "[green]  done all[/green]    mark all tasks done\n"
+            "[green]  done 2-4[/green]    mark tasks 2–4 done\n"
+            "[green]  done 1 5 7[/green]  mark tasks 1, 5, 7 done"
         )
 
     # load json file
