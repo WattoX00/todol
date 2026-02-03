@@ -87,7 +87,7 @@ class Functions():
                 else:
                     line = Text("  • ", style="bold yellow")
                     line.append(f"{task['id']} ", style="bold cyan")
-                    line.append(task["text"], style="white")
+                    line.append(task["text"], style="bold white")
 
                 console.print(line)
 
