@@ -28,7 +28,7 @@ def parse_args():
     info = parser.add_argument_group("Information")
     info.add_argument("-ls", "--list", action="store_true", help="List tasks to the terminal")
     info.add_argument("-p", "--path", action="store_true", help="Show todo files in local directory")
-    info.add_argument("-u", "--upgrade", action="store_true", help="Upgrade todol")
+    info.add_argument("-u", "--update", action="store_true", help="Upgrade todol")
     info.add_argument("-v", "--version", action="store_true", help="Show version")
 
     file_action = parser.add_argument_group("File actions")
@@ -74,7 +74,7 @@ def main():
         TodolList.list()
         return
 
-    if args.upgrade:
+    if args.update:
         TodolUpgrade.upgrade()
         return
 
