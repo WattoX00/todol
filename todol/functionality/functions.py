@@ -156,7 +156,7 @@ class Functions():
     def clearTaskJson():
 
         data: dict = Functions.load_todos()
-        
+
         for count in list(data['tasks']):
             if data['tasks'][count]['completed']:
                 del data['tasks'][count]
