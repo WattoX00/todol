@@ -49,5 +49,7 @@ class Commands():
     def cmd_reload(args):
         Functions.greetingAppStart()
 
+    def cmd_order(args):
+        Functions.orderList()
     def cmd_exit(args):
         raise SystemExit

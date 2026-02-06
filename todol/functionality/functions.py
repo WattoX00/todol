@@ -31,7 +31,7 @@ class Functions():
                 ░ ░      ░        ░ ░      ░  ░
 """
 )
-        print("[dim]      Type [bold]h[/bold] or [bold]help[/bold] to see available commands[/dim]\n")
+        print("[dim]      Type [bold yellow]h[/bold yellow] or [bold yellow]help[/bold yellow] to see available commands[/dim]\n")
         Functions.openJson()
 
     def getAllTasks() -> dict:
@@ -81,12 +81,12 @@ class Functions():
             for task in items:
                 if task["completed"]:
                     line = Text("  • ", style="dim")
-                    line.append(f"{task['id']} ", style="dim cyan")
+                    line.append(f"{task['id']} ", style="dim green")
                     line.append("✔ ", style="green")
                     line.append(task["text"], style="dim")
                 else:
                     line = Text("  • ", style="bold yellow")
-                    line.append(f"{task['id']} ", style="bold cyan")
+                    line.append(f"{task['id']} ", style="bold yellow")
                     line.append(task["text"], style="bold white")
 
                 console.print(line)
@@ -116,6 +116,23 @@ class Functions():
         }
 
         Functions.addTaskJson(task_data)
+
+    def orderList():
+        data = Functions.load_todos()
+        tasks = data.get("tasks", {})
+
+        if not tasks:
+            return
+
+        # Keep current order (JSON load preserves insertion order in Python 3.7+)
+        new_tasks = {}
+        for i, (_, task_data) in enumerate(tasks.items(), start=1):
+            new_tasks[str(i)] = task_data
+
+        data["tasks"] = new_tasks
+        Functions.save_todos(data)
+
+        print("\n[bold green]Task list reordered![/bold green]\n")
 
     # mark task as done in json
 
