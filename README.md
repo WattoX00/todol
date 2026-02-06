@@ -111,6 +111,7 @@ Commands:
   list, ls      Show todo list
   edit, e       Edit task
   clear, c      Clear done tasks
+  order, o      Order Todos by IDs
   help, h       Show help
   reload, rld   Reload the app
   exit, q       Exit app

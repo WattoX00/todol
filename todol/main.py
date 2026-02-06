@@ -24,7 +24,7 @@ def parse_args():
     actions.add_argument("-a", "--add", nargs="+", metavar="TASK", help="Add new task")
     actions.add_argument("-d", "--done", nargs="+", metavar="ID", help="Mark task as done")
     actions.add_argument("-c", "--clear", action="store_true", help="Remove completed tasks")
-    actions.add_argument("-o", "--order", action="store_true", help="Order Todo List's ids")
+    actions.add_argument("-o", "--order", action="store_true", help="Order Todos by ids")
 
     info = parser.add_argument_group("Information")
     info.add_argument("-ls", "--list", action="store_true", help="List tasks to the terminal")
