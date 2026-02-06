@@ -193,6 +193,7 @@ class Functions():
             "[cyan]  clear[/cyan], c      Clear done tasks\n"
             "[cyan]  help[/cyan], h       Show help\n"
             "[cyan]  reload[/cyan], rld   Reload the app\n"
+            "[cyan]  order[/cyan], o      Order the Todo List\n"
             "[cyan]  exit[/cyan], q       Exit app\n"
             "\n"
             "[bold]Batch operations:[/bold]\n"

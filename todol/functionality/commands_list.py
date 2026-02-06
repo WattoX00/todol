@@ -10,7 +10,7 @@ COMMANDS = {
     **aliases(Commands.cmd_help, "help", "h"),
     **aliases(Commands.cmd_list, "list", "ls",),
     **aliases(Commands.cmd_clear, "clear", "c"),
+    **aliases(Commands.cmd_order, "order", "o"),
     **aliases(Commands.cmd_reload, "reload", "rld"),
     **aliases(Commands.cmd_exit, "exit", "q"),
-    **aliases(Commands.cmd_order, "order", "ord"),
 }
