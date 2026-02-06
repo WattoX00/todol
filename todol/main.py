@@ -120,4 +120,3 @@ def main():
             print('Missing argument')
         except (SystemExit, KeyboardInterrupt):
             break
-main()
