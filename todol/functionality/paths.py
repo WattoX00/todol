@@ -79,3 +79,43 @@ def backup_todolist():
 
     except KeyboardInterrupt:
         print('\n[bold red]No backup were made[/bold red]')
+
+def load_backup():
+    backups = sorted(BACKUP_DIR.glob('backup-*.json'))
+
+    if not backups:
+        print('[bold red]No backups found[/bold red]')
+        return
+
+    # List backups
+    print('[bold yellow]Available backups:[/bold yellow]')
+    for i, backup in enumerate(backups, 1):
+        print(f'{i}. {backup.name}')
+
+    # Select backup
+    try:
+        choice = int(input('\nSelect a backup number: '))
+        selected_backup = backups[choice - 1]
+    except (ValueError, IndexError):
+        print('[bold red]Invalid selection[/bold red]')
+        return
+    except KeyboardInterrupt:
+        print('\n[bold red]Load cancelled[/bold red]')
+        return
+
+    # Ask to backup current main.json
+    print(
+        '[bold yellow]This will overwrite main.json.[/bold yellow]\n'
+        'Create a backup of the current todo list first?'
+    )
+    answer = input('(y/n) ').strip().lower()
+
+    if answer == 'y':
+        backup_todolist()
+
+    try:
+        TODO_JSON.write_text(selected_backup.read_text(), encoding='utf-8')
+        print(f'[bold green]Backup loaded successfully:[/bold green] {selected_backup.name}')
+    except KeyboardInterrupt:
+        print('\n[bold red]Load cancelled[/bold red]')
+

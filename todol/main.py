@@ -11,7 +11,7 @@ from .functionality.functions import Functions
 from .functionality.prompts import Prompts
 from .functionality.commands_list import COMMANDS
 from .functionality.commands import Commands
-from .functionality.paths import reset_todolist, backup_todolist
+from .functionality.paths import reset_todolist, backup_todolist, load_backup
 
 def parse_args():
     parser = argparse.ArgumentParser(
@@ -34,7 +34,8 @@ def parse_args():
 
     file_action = parser.add_argument_group("File actions")
     file_action.add_argument("-rst", "--reset", action="store_true", help="Reset Todo list")
-    file_action.add_argument("-bk", "--backup", action="store_true", help="Create a backup")
+    file_action.add_argument("-bk", "--backup", action="store_true", help="Create backup")
+    file_action.add_argument("-lbk", "--load", action="store_true", help="Load backup backup")
 
     return parser.parse_args()
 
@@ -49,6 +50,10 @@ def main():
 
     if args.backup:
         backup_todolist()
+        return
+
+    if args.load:
+        load_backup()
         return
 
     # commands
@@ -68,6 +73,7 @@ def main():
     if args.order:
         Functions.orderList()
         return
+
     # Flag flags
 
     if args.path:
