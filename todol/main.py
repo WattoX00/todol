@@ -35,7 +35,7 @@ def parse_args():
     file_action = parser.add_argument_group("File actions")
     file_action.add_argument("-rst", "--reset", action="store_true", help="Reset Todo list")
     file_action.add_argument("-bk", "--backup", action="store_true", help="Create backup")
-    file_action.add_argument("-lbk", "--load", action="store_true", help="Load backup backup")
+    file_action.add_argument("-lbk", "--load", action="store_true", help="Load backup")
 
     return parser.parse_args()
 
