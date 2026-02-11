@@ -1,6 +1,6 @@
 # Todol - Simple cli ToDo app
 
-[![Version](https://img.shields.io/badge/version-0.3.7-blue?style=for-the-badge)](https://github.com/WattoX00/todol/releases/tag/v0.3.7)
+[![Version](https://img.shields.io/badge/version-0.3.8-blue?style=for-the-badge)](https://github.com/WattoX00/todol/releases/tag/v0.3.8)
 ![Python](https://img.shields.io/badge/python-3.9%2B-blue?style=for-the-badge)
 [![PyPI](https://img.shields.io/pypi/v/todol?style=for-the-badge)](https://pypi.org/project/todol/)
 ![Status](https://img.shields.io/badge/status-active-success?style=for-the-badge)
