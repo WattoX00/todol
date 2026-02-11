@@ -215,3 +215,17 @@ class Functions():
     def save_todos(data: dict):
         with open(todoJsonListPath(), 'w') as f:
             json.dump(data, f, indent=4)
+
+    # load tags for autocompletion
+    
+    def load_tags() -> list[str]:
+        data = Functions.load_todos()
+
+        tags = set()
+        pattern = re.compile(r'@[\w-]+')
+
+        for task in data.get("tasks", {}).values():
+            text = task.get("task", "")
+            tags.update(pattern.findall(text))
+
+        return sorted(tags)
