@@ -217,7 +217,7 @@ class Functions():
             json.dump(data, f, indent=4)
 
     # load tags for autocompletion
-    
+
     def load_tags() -> list[str]:
         data = Functions.load_todos()
 

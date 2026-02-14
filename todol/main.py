@@ -109,7 +109,7 @@ def main():
         command, *args = parts
 
         command = command.lower()
-        
+
         func = COMMANDS.get(command)
 
         if not func:
