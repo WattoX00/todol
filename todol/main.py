@@ -9,7 +9,7 @@ from .flags.todol_version import TodolVersion
 # Functions for the main loop
 from .functionality.functions import Functions
 from .functionality.prompts import Prompts
-from .functionality.commands_list import COMMANDS
+from .functionality.commands_list import COMMANDS, ALIASES
 from .functionality.commands import Commands
 from .functionality.paths import reset_todolist, backup_todolist, load_backup
 
@@ -109,7 +109,6 @@ def main():
         command, *args = parts
         command = command.lower()
 
-        # resolve alias → canonical name
         command = ALIASES.get(command, command)
 
         func = COMMANDS.get(command)

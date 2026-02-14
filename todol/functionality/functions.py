@@ -20,14 +20,14 @@ class Functions():
         clear()
 
         print(r"""
-   ▄▄▄█████▓ ▒█████   ▓█████▄  ▒█████   ██▓    
-   ▓  ██▒ ▓▒▒██▒  ██▒ ▒██▀ ██▌▒██▒  ██▒▓██▒    
-   ▒ ▓██░ ▒░▒██░  ██▒ ░██   █▌▒██░  ██▒▒██░    
-   ░ ▓██▓ ░ ▒██   ██░ ░▓█▄   ▌▒██   ██░▒██░    
+   ▄▄▄█████▓ ▒█████   ▓█████▄  ▒█████   ██▓
+   ▓  ██▒ ▓▒▒██▒  ██▒ ▒██▀ ██▌▒██▒  ██▒▓██▒
+   ▒ ▓██░ ▒░▒██░  ██▒ ░██   █▌▒██░  ██▒▒██░
+   ░ ▓██▓ ░ ▒██   ██░ ░▓█▄   ▌▒██   ██░▒██░
      ▒██▒ ░ ░ ████▓▒░ ░▒████▓ ░ ████▓▒░░██████▒
      ▒ ░░   ░ ▒░▒░▒░   ▒▒▓  ▒ ░ ▒░▒░▒░ ░ ▒░▓  ░
        ░      ░ ▒ ▒░   ░ ▒  ▒   ░ ▒ ▒░ ░ ░ ▒  ░
-     ░      ░ ░ ░ ▒    ░ ░  ░ ░ ░ ░ ▒    ░ ░   
+     ░      ░ ░ ░ ▒    ░ ░  ░ ░ ░ ░ ▒    ░ ░
                 ░ ░      ░        ░ ░      ░  ░
 """
 )
@@ -124,7 +124,6 @@ class Functions():
         if not tasks:
             return
 
-        # Keep current order (JSON load preserves insertion order in Python 3.7+)
         new_tasks = {}
         for i, (_, task_data) in enumerate(tasks.items(), start=1):
             new_tasks[str(i)] = task_data
@@ -183,6 +182,7 @@ class Functions():
         print('\n[bold yellow]TODO list CLEARED![/bold yellow]\n')
 
     # print help commands
+
     def helpText() -> None:
         print(
             "[bold]Commands:[/bold]\n"
