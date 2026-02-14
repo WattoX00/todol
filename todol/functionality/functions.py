@@ -31,7 +31,7 @@ class Functions():
                 ░ ░      ░        ░ ░      ░  ░
 """
 )
-        print("[dim]      Type [bold yellow]h[/bold yellow] or [bold yellow]help[/bold yellow] to see available commands[/dim]\n")
+        print("[dim]      Type [bold yellow]help[/bold yellow] to see available commands[/dim]\n")
         Functions.openJson()
 
     def getAllTasks() -> dict:
