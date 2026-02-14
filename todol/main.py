@@ -107,8 +107,10 @@ def main():
 
         parts = raw.split()
         command, *args = parts
-
         command = command.lower()
+
+        # resolve alias → canonical name
+        command = ALIASES.get(command, command)
 
         func = COMMANDS.get(command)
 
@@ -122,3 +124,4 @@ def main():
             print('Missing argument')
         except (SystemExit, KeyboardInterrupt):
             break
+
