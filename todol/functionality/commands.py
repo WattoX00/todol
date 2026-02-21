@@ -26,7 +26,7 @@ class Commands():
 
             defTask: str = task[taskId]['task']
 
-            editTask = Prompts.session.prompt(HTML('\n<ansiblue>todol ~ task (edit) : </ansiblue>'), default=defTask)
+            editTask = Prompts.session.prompt(HTML(f'\n<ansiblue>todol ~ {taskId}: </ansiblue>'), default=defTask)
 
             Functions.update_task(taskId, editTask)
 
