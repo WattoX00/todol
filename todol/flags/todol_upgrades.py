@@ -6,18 +6,17 @@ from prompt_toolkit.layout import Layout
 from prompt_toolkit.layout.containers import Window
 from prompt_toolkit.layout.controls import FormattedTextControl
 from prompt_toolkit.styles import Style
+from prompt_toolkit.formatted_text import ANSI  # FIXED IMPORT
+from prompt_toolkit.output.color_depth import ColorDepth
 from rich.console import Console
 from rich.panel import Panel
 from rich.text import Text
 from rich.align import Align
 from io import StringIO
 
-
 WIDTH = 30
 HEIGHT = 15
 TICK_RATE = 0.12
-
-console = Console()
 
 class SnakeGame:
     def __init__(self):
@@ -48,7 +47,6 @@ class SnakeGame:
         dx, dy = self.direction
         new_head = (head_x + dx, head_y + dy)
 
-        # Wall collision
         if (
             new_head[0] <= 0
             or new_head[0] >= WIDTH - 1
@@ -70,7 +68,6 @@ class SnakeGame:
     def render(self):
         grid = [[" " for _ in range(WIDTH)] for _ in range(HEIGHT)]
 
-        # Borders
         for x in range(WIDTH):
             grid[0][x] = "#"
             grid[HEIGHT - 1][x] = "#"
@@ -78,11 +75,9 @@ class SnakeGame:
             grid[y][0] = "#"
             grid[y][WIDTH - 1] = "#"
 
-        # Food
         fx, fy = self.food
         grid[fy][fx] = "●"
 
-        # Snake
         for i, (x, y) in enumerate(self.snake):
             grid[y][x] = "█" if i == 0 else "▓"
 
@@ -94,9 +89,14 @@ class SnakeGame:
         text.append(f"\n\nScore: {self.score}", style="bold yellow")
 
         if self.game_over:
-            text.append("\n\nGAME OVER - Press R to Restart or Q to Quit", style="bold red")
+            text.append(
+                "\n\nGAME OVER - Press R to Restart or Q to Quit",
+                style="bold red",
+            )
 
-        return Align.center(Panel(text, title="Snake", border_style="bright_blue"))
+        return Align.center(
+            Panel(text, title="Snake", border_style="bright_blue")
+        )
 
 async def run_snake():
     game = SnakeGame()
@@ -129,9 +129,13 @@ async def run_snake():
 
     def get_text():
         buffer = StringIO()
-        temp_console = Console(file=buffer, force_terminal=True, color_system="truecolor")
+        temp_console = Console(
+            file=buffer,
+            force_terminal=True,
+            color_system="standard",
+        )
         temp_console.print(game.render())
-        return buffer.getvalue()
+        return ANSI(buffer.getvalue())
 
     app = Application(
         layout=Layout(Window(FormattedTextControl(get_text))),
@@ -140,6 +144,7 @@ async def run_snake():
         style=Style.from_dict({
             "": "bg:#000000 #ffffff",
         }),
+        color_depth=ColorDepth.DEPTH_8_BIT,
     )
 
     async def game_loop():
