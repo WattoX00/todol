@@ -105,7 +105,7 @@ def load_backup():
 
     # Ask to backup current main.json
     print(
-        '[bold yellow]This will overwrite main.json.[/bold yellow]\n'
+        '[bold yellow]This will overwrite main.json[/bold yellow]\n'
         'Create a backup of the current todo list first?'
     )
     answer = input('(y/n) ').strip().lower()

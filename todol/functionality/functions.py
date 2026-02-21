@@ -76,7 +76,7 @@ class Functions():
             incomplete_count = len(items) - completed_count
 
             console.print()
-            console.print(Text(f"@{tag}", style="magenta"))
+            console.print(Text(f"@{tag}", style="bold magenta"))
 
             for task in items:
                 if task["completed"]:
