@@ -16,7 +16,7 @@ from .functionality.paths import reset_todolist, backup_todolist, load_backup
 def parse_args():
     parser = argparse.ArgumentParser(
         prog="todol",
-        description=f"{version}\nSimple cli todo app",
+        description=f"{TodolVersion.version()}\nSimple cli todo app",
         formatter_class=argparse.RawTextHelpFormatter
     )
 
@@ -29,7 +29,8 @@ def parse_args():
     info = parser.add_argument_group("Information")
     info.add_argument("-ls", "--list", action="store_true", help="List tasks to the terminal")
     info.add_argument("-p", "--path", action="store_true", help="Show todo files in local directory")
-    info.add_argument("-u", "--update", action="store_true", help="Upgrade todol")
+    info.add_argument("-u", "--update", action="store_true", help="Update todol with pipx")
+    info.add_argument("-up", "--upgrades", action="store_true", help="There's only one way to find out :)")
     info.add_argument("-v", "--version", action="store_true", help="Show version")
 
     file_action = parser.add_argument_group("File actions")
@@ -57,6 +58,10 @@ def main():
         return
 
     # commands
+    if args.upgrades:
+        from .flags.todol_upgrades import main
+        main()
+        return
 
     if args.add:
         Commands.cmd_add(args.add)
@@ -89,7 +94,7 @@ def main():
         return
 
     if args.version:
-        TodolVersion.version()
+        print(TodolVersion.version())
         return
 
     # main loop
