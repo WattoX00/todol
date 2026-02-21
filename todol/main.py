@@ -16,7 +16,7 @@ from .functionality.paths import reset_todolist, backup_todolist, load_backup
 def parse_args():
     parser = argparse.ArgumentParser(
         prog="todol",
-        description=f"{version}\nSimple cli todo app by me for u <3",
+        description=f"{version}\nSimple cli todo app",
         formatter_class=argparse.RawTextHelpFormatter
     )
 

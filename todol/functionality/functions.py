@@ -76,7 +76,7 @@ class Functions():
             incomplete_count = len(items) - completed_count
 
             console.print()
-            console.print(Text(f"@{tag}", style="bold magenta"))
+            console.print(Text(f"@{tag}", style="magenta"))
 
             for task in items:
                 if task["completed"]:
@@ -191,9 +191,9 @@ class Functions():
             "[cyan]  list[/cyan], ls      Show todo list\n"
             "[cyan]  edit[/cyan], e       Edit task\n"
             "[cyan]  clear[/cyan], c      Clear done tasks\n"
-            "[cyan]  help[/cyan], h       Show help\n"
-            "[cyan]  reload[/cyan], rld   Reload the app\n"
             "[cyan]  order[/cyan], o      Order the Todos by IDs\n"
+            "[cyan]  reload[/cyan], rld   Reload the app\n"
+            "[cyan]  help[/cyan], h       Show help\n"
             "[cyan]  exit[/cyan], q       Exit app\n"
             "\n"
             "[bold]Batch operations:[/bold]\n"
