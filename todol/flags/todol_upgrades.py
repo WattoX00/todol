@@ -6,7 +6,7 @@ from prompt_toolkit.layout import Layout
 from prompt_toolkit.layout.containers import Window
 from prompt_toolkit.layout.controls import FormattedTextControl
 from prompt_toolkit.styles import Style
-from prompt_toolkit.formatted_text import ANSI  # FIXED IMPORT
+from prompt_toolkit.formatted_text import ANSI
 from prompt_toolkit.output.color_depth import ColorDepth
 from rich.console import Console
 from rich.panel import Panel

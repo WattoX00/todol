@@ -57,11 +57,30 @@ def main():
         load_backup()
         return
 
-    # commands
+    # Flag flags
+
+    if args.path:
+        TodolPath.path()
+        return
+
+    if args.list:
+        TodolList.list()
+        return
+
+    if args.update:
+        TodolUpgrade.upgrade()
+        return
+
     if args.upgrades:
         from .flags.todol_upgrades import main
         main()
         return
+
+    if args.version:
+        print(TodolVersion.version())
+        return
+
+    # commands
 
     if args.add:
         Commands.cmd_add(args.add)
@@ -77,24 +96,6 @@ def main():
 
     if args.order:
         Functions.orderList()
-        return
-
-    # Flag flags
-
-    if args.path:
-        TodolPath.path()
-        return
-
-    if args.list:
-        TodolList.list()
-        return
-
-    if args.update:
-        TodolUpgrade.upgrade()
-        return
-
-    if args.version:
-        print(TodolVersion.version())
         return
 
     # main loop
