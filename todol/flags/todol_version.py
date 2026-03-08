@@ -4,7 +4,6 @@ from importlib.metadata import version, PackageNotFoundError
 
 PACKAGE_NAME = "todol"
 
-
 class TodolVersion():
     def version():
         try:
