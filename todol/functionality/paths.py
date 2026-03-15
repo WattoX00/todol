@@ -52,22 +52,32 @@ def reset_todolist():
     elif choice in ('', 'no', 'n'):
         print('[bold red]Operation cancelled. No data was lost.[/bold red]')
 
-
 def backup_todolist():
     try:
         timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-        default_backup = BACKUP_DIR / f'backup-{timestamp}.json'
+        default_name = f'backup-{timestamp}.json'
+
+        print(
+            f'Do you want to change name ({default_name})\n'
+            'Leave empty for no:'
+        )
+
+        new_name = input('> ').strip()
+        filename = new_name if new_name else default_name
+
+        default_backup = BACKUP_DIR / filename
 
         print(
             f'[bold yellow]Save backup somewhere else (Leave blank for default)[/bold yellow]\n'
             f'{default_backup}\n'
-            )
+        )
+
         user_path = input('> ').strip()
 
         if user_path:
             backup_path = Path(user_path).expanduser()
             if backup_path.is_dir():
-                backup_path = backup_path / default_backup.name
+                backup_path = backup_path / filename
         else:
             backup_path = default_backup
 
@@ -78,7 +88,7 @@ def backup_todolist():
         print(f'[bold green]Todo list backed up to:[/bold green] {backup_path}')
 
     except KeyboardInterrupt:
-        print('\n[bold red]No backup were made[/bold red]')
+        print('\n[bold red]No backup was made[/bold red]')
 
 def load_backup():
     backups = sorted(BACKUP_DIR.glob('backup-*.json'))
