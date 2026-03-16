@@ -58,18 +58,18 @@ def backup_todolist():
         default_name = f'backup-{timestamp}.json'
 
         print(
-            f'Do you want to change name ({default_name})\n'
+            f'[bold yellow]Do you want to change name ({default_name})[/bold yellow]\n'
             'Leave empty for no:'
         )
 
         new_name = input('> ').strip()
-        filename = new_name if new_name else default_name
+        filename = new_name+'.json' if new_name else default_name
 
         default_backup = BACKUP_DIR / filename
 
         print(
-            f'[bold yellow]Save backup somewhere else (Leave blank for default)[/bold yellow]\n'
-            f'{default_backup}\n'
+            f'[bold yellow]Save backup somewhere else {default_backup}[/bold yellow]\n'
+            'Leave empty for no:'
         )
 
         user_path = input('> ').strip()
