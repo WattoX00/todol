@@ -6,12 +6,6 @@ from .flags.todol_list import TodolList
 from .flags.todol_upgrade import TodolUpgrade
 from .flags.todol_version import TodolVersion
 
-# Functions for the main loop
-from .functionality.functions import Functions
-from .functionality.prompts import Prompts
-from .functionality.commands_list import COMMANDS, ALIASES
-from .functionality.commands import Commands
-from .functionality.paths import reset_todolist, backup_todolist, load_backup
 
 def parse_args():
     parser = argparse.ArgumentParser(
@@ -46,14 +40,17 @@ def main():
     # file actions
 
     if args.reset:
+        from .functionality.paths import reset_todolist
         reset_todolist()
         return
 
     if args.backup:
+        from .functionality.paths import backup_todolist
         backup_todolist()
         return
 
     if args.load:
+        from .functionality.paths import load_backup
         load_backup()
         return
 
@@ -83,10 +80,12 @@ def main():
     # commands
 
     if args.add:
+        from .functionality.commands import Commands
         Commands.cmd_add(args.add)
         return
 
     if args.done:
+        from .functionality.commands import Commands
         Commands.cmd_done(args.done)
         return
 
@@ -95,10 +94,15 @@ def main():
         return
 
     if args.order:
+        from .functionality.functions import Functions
         Functions.orderList()
         return
 
     # main loop
+
+    from .functionality.prompts import Prompts
+    from .functionality.commands_list import COMMANDS, ALIASES
+    from .functionality.functions import Functions
 
     Functions.greetingAppStart()
 
