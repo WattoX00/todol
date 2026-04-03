@@ -1,26 +1,37 @@
-import sys
 import requests
 from importlib.metadata import version, PackageNotFoundError
 
 PACKAGE_NAME = "todol"
 
-class TodolVersion():
-    def version():
+class TodolVersion:
+    @staticmethod
+    def get_installed():
         try:
-            installed_version = version(PACKAGE_NAME)
+            return version(PACKAGE_NAME)
         except PackageNotFoundError:
-            installed_version = "not installed"
+            return "not installed"
 
+    @staticmethod
+    def get_latest_online():
         try:
-            resp = requests.get(f"https://pypi.org/pypi/{PACKAGE_NAME}/json", timeout=3)
+            resp = requests.get(
+                f"https://pypi.org/pypi/{PACKAGE_NAME}/json",
+                timeout=1
+            )
             resp.raise_for_status()
-            latest_version = resp.json()["info"]["version"]
+            return resp.json()["info"]["version"]
         except Exception:
-            latest_version = "unknown"
+            return None
 
-        if installed_version == latest_version:
-            return (f"{PACKAGE_NAME} {installed_version} LTS")
+    @staticmethod
+    def version():
+        installed = TodolVersion.get_installed()
+        latest = TodolVersion.get_latest_online()
+
+        if latest is None:
+            return f"{PACKAGE_NAME} {installed}"
+
+        if installed == latest:
+            return f"{PACKAGE_NAME} {installed} LTS"
         else:
-            return (f"{PACKAGE_NAME} {installed_version} newer version available: {latest_version}")
-
-        sys.exit(0)
+            return f"{PACKAGE_NAME} {installed} (new: {latest})"
