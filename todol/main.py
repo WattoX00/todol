@@ -1,11 +1,7 @@
 import argparse
 
 # Flags
-from .flags.todol_path import TodolPath
-from .flags.todol_list import TodolList
-from .flags.todol_upgrade import TodolUpgrade
 from .flags.todol_version import TodolVersion
-
 
 def parse_args():
     parser = argparse.ArgumentParser(
@@ -57,14 +53,17 @@ def main():
     # Flag flags
 
     if args.path:
+        from .flags.todol_path import TodolPath
         TodolPath.path()
         return
 
     if args.list:
+        from .flags.todol_list import TodolList
         TodolList.list()
         return
 
     if args.update:
+        from .flags.todol_upgrade import TodolUpgrade
         TodolUpgrade.upgrade()
         return
 
