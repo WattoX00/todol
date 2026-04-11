@@ -23,7 +23,7 @@
 </details>
 
 
-## 📦 Installation
+## Installation
 
 ```
 pip install todol
@@ -37,7 +37,7 @@ More Info
 - Check out the project page on PyPi: [https://pypi.org/project/todol/](https://pypi.org/project/todol/)
 - and on Github: [https://github.com/WattoX00/todol](https://github.com/WattoX00/todol)
 
-## 🚀 Usage
+## Usage
 
 ### Run from anywhere in your terminal
 
@@ -138,7 +138,7 @@ done 4-7       # marks tasks with IDs 4 through 7 as done
 done 3 5 8     # marks tasks 3, 5, and 8 as done
 ```
 
-## ❓ FAQ
+## FAQ
 
 ### Where are the saved todo files stored?
 
@@ -221,7 +221,7 @@ For the full official key binding documentation, check the prompt_toolkit docs: 
 
 </details>
 
-## ❤️ Support
+## Support
 
 If this project saved you time, taught you something, or made your day a little easier,
 you can support its development here:
@@ -235,7 +235,7 @@ Your support helps keep the project:
 
 Thanks for being part of the community 🤝
 
-## 📄 License
+## License
 
 This project is licensed under the **MIT License**.  
 See the [LICENSE](LICENSE) file for full details.
